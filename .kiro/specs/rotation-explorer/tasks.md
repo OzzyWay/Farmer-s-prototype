@@ -241,11 +241,13 @@ with a layer list), fed by the /api/rotation answer through App.jsx; it is no lo
     Save a screenshot for each check and fix what fails.
     - _Requirements: 1, 3, 9, 15_
 
-- [ ] 16. Final checks
-  - [ ] 16.1 Run the full backend test suite and `verify.py`; report each source's live status, including failures
-  - [ ] 16.2 Confirm `backend/cache/` is ignored, no `.env` values appear in code, logs, cache files, fixtures or the built frontend, and Open-Meteo is credited
+- [x] 16. Final checks
+  - [x] 16.1 Run the full backend test suite and `verify.py`; report each source's live status, including failures
+  - [x] 16.2 Confirm `backend/cache/` is ignored, no `.env` values appear in code, logs, cache files, fixtures or the built frontend, and Open-Meteo is credited
     - _Requirements: 16.3, 18.11, 23.4_
-  - [ ] 16.3 Give the user the remaining manual checklist (screen reader, a real phone, a second location with an on-demand outlook)
+    - 2026-11-15: `.env`, `backend/cache/`, `dist/` and the dev reports are in `.gitignore`; no key, token or variable name found in backend code, tests, scripts, cache, config, frontend source, `dist/` or fixtures; Open-Meteo CC BY 4.0 credit in `DataLimitations.jsx` and `ClimateTrends.jsx`.
+    - 16.1 result (`verify.py`, 2026-11-15): 356 passed, 1 skipped, 1 deprecation warning; build OK; geocoders OK (Census, Nominatim, coordinates); farm-data live: NASA POWER 64, SSURGO 8, CDL 8 records; rotation: no missing sources, 4 strategies all high confidence, 6 findings, 5 exclusions, outlook precomputed; NWS weather: 14 periods, 0 official alerts, 1 farm alert.
+  - [x] 16.3 Give the user the remaining manual checklist (screen reader, a real phone, a second location with an on-demand outlook)
 
 ## Phase 2 (after the deadline)
 
