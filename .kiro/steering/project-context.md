@@ -28,6 +28,8 @@ Hackathon project for the challenge "Field Shift: Adapting Farms with NASA Data"
 - Map, location search (Census geocoder, Nominatim fallback, lat/lon, map click, demo-farm button), 1 km "estimated field area" box.
 - Spec `farm-data-panel` (all 10 tasks): `/api/farm-data` with NASA POWER climate normals, USDA SSURGO soil, USDA CDL crop history; disk cache; partial failure never 500s; Apple-style frosted panel with Climate / Soil / Crop history, chart, source tags, light/dark, accessibility.
 
+- Field helper (guided Q&A, no AI): floating "Ask about this field" button, 18 fixed questions plus keyword matching, answers built only from the loaded `/api/rotation` and `/api/weather` data with sources. Logic in `frontend/src/helper/answers.js` (tests `frontend/tests/answers.test.mjs` with real Webberwood fixtures), UI in `helper/FieldHelper.jsx`, glossary moved to `fieldSummary/terms.js`.
+
 ## In progress: spec `rotation-explorer`
 Requirements, design and tasks in `.kiro/specs/rotation-explorer/`. Rules-based (no black-box model): sourced 15-crop table for Central Texas (`config/crops.json`), exclusion rules, rotation templates, six 0-100 scores with formulas shown, findings, explanations with evidence, risks, gaps and confidence.
 - Done: tasks 1-6 (fixtures, crop table + validator, full soil profile, 1981+ climate indicators and Theil-Sen / Mann-Kendall trends from NASA POWER daily incl. root-zone soil wetness and evaporation, Open-Meteo 2030-2049 outlook with budget guard and precomputed Webberwood file, current rotation from CDL).

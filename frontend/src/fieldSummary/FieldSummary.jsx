@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ViewState from "../farmData/ViewState.jsx";
+import FieldHelper from "../helper/FieldHelper.jsx";
 import ForecastCard from "../weather/ForecastCard.jsx";
 import { CalendarLegend } from "./CalendarStrip.jsx";
 import ClimateTrends from "./ClimateTrends.jsx";
@@ -151,6 +152,15 @@ export default function FieldSummary({ place, sectionRef, onSoilModelData, weath
 
         <DataLimitations outlook={data?.outlook} />
       </div>
+
+      {/* Floating "Ask about this field" helper: fixed questions answered from the data above. */}
+      <FieldHelper
+        place={place}
+        rotation={data}
+        rotationState={data ? "ready" : rotation.status === "error" ? "error" : place ? "loading" : "idle"}
+        rotationError={rotation.error}
+        weather={weather}
+      />
 
       <div className="visually-hidden" role="status" aria-live="polite">{order.announcement}</div>
     </section>
