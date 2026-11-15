@@ -34,6 +34,7 @@ RAMPS = {
 }
 _DATE_PATTERN = re.compile(r"(?<!\d)(?:19|20)\d{2}[-_]?(?:0[1-9]|1[0-2])(?:[-_]?(?:0[1-9]|[12]\d|3[01]))?(?!\d)")
 _DOY_PATTERN = re.compile(r"(?<!\d)((?:19|20)\d{2})((?:0\d\d|[12]\d\d|3[0-6]\d))(?!\d)")
+_YEAR_PATTERN = re.compile(r"(?<!\d)((?:19|20)\d{2})(?!\d)")
 logger = logging.getLogger(__name__)
 HF_REPO_ID = "OzzyWay/Farmers-Helper"
 HF_REPO_TYPE = "dataset"
@@ -77,6 +78,9 @@ def _parse_date(text: str) -> str | None:
             ).isoformat()
         except ValueError:
             return None
+    match = _YEAR_PATTERN.search(Path(text).stem)
+    if match:
+        return f"{match.group(1)}-01-01"
     return None
 
 
@@ -102,6 +106,22 @@ def _catalog_header_index(family: str) -> dict[str, dict[str, str]]:
         for row in _catalog_rows()
         if row["source_family"].casefold() == family.casefold() and row.get("layer_header")
     }
+
+
+def _describe_data(title: str | None, description: str | None, units: str | None) -> str | None:
+    fragments = []
+    content = (description or title or "").strip()
+    if content:
+        fragments.append(content.rstrip("."))
+    unit_text = (units or "").strip()
+    if unit_text and unit_text.casefold() not in {"n/a", "na", "none"}:
+        fragments.append(f"Units: {unit_text}")
+    if not fragments:
+        return None
+    description_text = ". ".join(fragments)
+    if description_text and not description_text.endswith("."):
+        description_text += "."
+    return description_text
 
 
 def _catalog_match(text: str, family: str | None = None) -> dict | None:
@@ -144,12 +164,17 @@ def _catalog_metadata(identity: str, dataset_name: str, name: str) -> dict:
     text = f"{identity} {dataset_name} {name}"
     family = _source_family(text)
     entry = _catalog_match(text, family)
+    description = _describe_data(
+        (entry or {}).get("title"),
+        (entry or {}).get("description"),
+        (entry or {}).get("units"),
+    ) if entry else None
     return {
         "source_family": family or (entry or {}).get("source_family"),
         "catalog_entry": entry,
         "catalog_matched": entry is not None,
         "title": entry["title"] if entry else name,
-        "description": entry["description"] if entry else None,
+        "description": description,
     }
 
 
@@ -371,6 +396,8 @@ def _series_key(identity: str, dataset_name: str) -> str:
             continue
         part = _DATE_PATTERN.sub("", part)
         part = _DOY_PATTERN.sub("", part)
+        if index == len(parts) - 1:
+            part = _YEAR_PATTERN.sub("", part)
         if part:
             cleaned.append(part)
     stem = re.sub(r"[^a-zA-Z0-9]+", "-", "-".join(cleaned)).strip("-").lower()
@@ -641,7 +668,11 @@ class RasterOverlayService:
                 {
                     **variable,
                     "summary": values,
-                    "description": (variable.get("catalog_entry") or {}).get("description"),
+                    "description": _describe_data(
+                        (variable.get("catalog_entry") or {}).get("title"),
+                        (variable.get("catalog_entry") or {}).get("description"),
+                        (variable.get("catalog_entry") or {}).get("units"),
+                    ),
                     "catalog_matched": variable.get("catalog_entry") is not None,
                 }
                 for variable, values in zip(asset["variables"], stats)

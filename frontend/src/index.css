@@ -819,7 +819,7 @@ a { color: var(--accent-text); }
 }
 .raster-overlay-heading label { display: flex; align-items: flex-start; gap: 7px; font-size: 13px; font-weight: 600; }
 .raster-overlay-heading input, .raster-sync input { accent-color: var(--accent); }
-.raster-remove { border: 0; background: transparent; color: var(--text-secondary); font-size: 20px; cursor: pointer; }
+.raster-remove { border: 0; border-radius: 5px; background: transparent; color: var(--text-secondary); font-size: 12px; cursor: pointer; padding: 3px 6px; }
 .raster-field, .raster-date-picker, .raster-style-row, .raster-sync-date {
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
   margin-top: 7px; font-size: 12px;

@@ -132,7 +132,10 @@ to that CSV. New raster files in the Hugging Face dataset are discovered
 automatically; the backend does not download the repository at startup.
 
 Use the raster panel's date controls to navigate every dated file in a layer
-series. For regional statistics, frame the map on the area of interest and choose
+series. GAEZ files whose layer names end in a year are treated as annual frames;
+the catalog contains 1960–2010 sequences for most variables. Playback waits for
+the current map frame to load before advancing, avoiding skipped annual rasters.
+Use **Remove** on a selected layer to remove it from the map. For regional statistics, frame the map on the area of interest and choose
 **Summarize visible map area**. The backend reads intersecting raster windows,
 excludes NoData and pixels outside the region, and caches statistics by file,
 band, and region. Large-area median values use a documented sample; other

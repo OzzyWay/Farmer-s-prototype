@@ -60,7 +60,7 @@ export default function RasterOverlayPanel({ map }) {
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [syncDates, setSyncDates] = useState(false);
   const [syncDate, setSyncDate] = useState("");
-  const [speed, setSpeed] = useState(700);
+  const [speed, setSpeed] = useState(100);
   const [open, setOpen] = useState(false);
   const timers = useRef(new Map());
   const detailRequests = useRef(new Map());
@@ -201,6 +201,9 @@ export default function RasterOverlayPanel({ map }) {
     const timer = setInterval(() => {
       setOverlays((current) => current.map((item) => {
         if (item.uid !== uid) return item;
+        if (item.loading || item.asset?.id !== item.rasterId) return item;
+        const sourceId = `raster-source-${item.uid}-${item.rasterId}`;
+        if (!map?.getSource(sourceId) || !map.isSourceLoaded(sourceId)) return item;
         const index = dated.findIndex((record) => record.datetime === item.date);
         const record = dated[(index + 1) % dated.length];
         return { ...item, rasterId: record.id, date: record.datetime, noObservation: false, playing: true };
@@ -447,7 +450,7 @@ export default function RasterOverlayPanel({ map }) {
                   </label>
                   <button type="button" className="raster-remove" aria-label={`Remove ${raster.name}`}
                     onClick={() => removeOverlay(overlay.uid)}>
-                    ×
+                    Remove
                   </button>
                 </div>
                 {overlay.loading && <p className="raster-help" role="status">Loading selected map layer…</p>}
@@ -507,6 +510,7 @@ export default function RasterOverlayPanel({ map }) {
                     <label>Playback speed
                       <select value={speed} onChange={(event) => changePlaybackSpeed(Number(event.target.value))}>
                         <option value={1200}>Slow</option><option value={700}>Normal</option><option value={300}>Fast</option>
+                        <option value={100}>Fastest (wait for map)</option>
                       </select>
                     </label>
                   </div>

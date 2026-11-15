@@ -86,6 +86,34 @@ def test_catalog_uses_only_dates_present_in_raster_filenames(tmp_path, monkeypat
     assert [record["datetime"] for record in records] == ["2024-01", "2024-03"]
 
 
+def test_catalog_groups_year_suffixed_gaez_rasters_in_year_order(tmp_path, monkeypatch):
+    gaez_dir = tmp_path / "GAEZ"
+    gaez_dir.mkdir()
+    for year in ("1961", "1960"):
+        with rasterio.open(
+            gaez_dir / f"Sb_{year}.tif",
+            "w",
+            driver="GTiff",
+            width=2,
+            height=2,
+            count=1,
+            dtype="float32",
+            crs="EPSG:4326",
+            transform=from_bounds(-1, -1, 1, 1, 2, 2),
+        ) as dataset:
+            dataset.write(np.ones((2, 2), dtype=np.float32), 1)
+
+    monkeypatch.setenv("RASTER_DATA_DIRS", str(tmp_path))
+    monkeypatch.delenv("HF_TOKEN", raising=False)
+    catalog = RasterOverlayService().catalog()
+
+    assert len(catalog) == 1
+    assert [record["datetime"] for record in catalog[0]["records"]] == [
+        "1960-01-01",
+        "1961-01-01",
+    ]
+
+
 def test_hugging_face_discovery_is_metadata_only_and_uses_catalog(tmp_path, monkeypatch):
     downloaded = []
     siblings = [
@@ -167,6 +195,8 @@ def test_hugging_face_download_occurs_only_when_asset_is_selected(tmp_path, monk
     assert downloads[0]["token"] == "test-token"
     assert asset["variables"][0]["name"] == "Land Surface Temperature"
     assert asset["variables"][0]["units"] == "K"
+    assert "Land Surface Temperature" in asset["description"]
+    assert "Units: K" in asset["description"]
 
 
 def test_smap_raster_without_geotiff_crs_uses_embedded_ease_grid_metadata(tmp_path, monkeypatch):
