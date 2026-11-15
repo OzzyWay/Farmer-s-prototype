@@ -486,7 +486,7 @@ class RasterOverlayService:
             repo_path = sibling.rfilename
             if Path(repo_path).suffix.casefold() not in RASTER_SUFFIXES:
                 continue
-            identity = f"hf:{repo_id}@{revision}/{repo_path}"
+            identity = f"hf:{repo_id}/{repo_path}"
             parent = Path(repo_path).parent
             family = _source_family(repo_path)
             dataset_name = family or (parent.parts[0] if parent.parts and str(parent) != "." else repo_id)
@@ -563,7 +563,7 @@ class RasterOverlayService:
                     identity = source["identity"]
                     if source["kind"] == "huggingface":
                         asset = {
-                            "id": _file_id(identity + source["modified"]),
+                            "id": _file_id(identity),
                             "dataset": source["dataset"],
                             "name": source["name"],
                             "datetime": _parse_date(source["name"]) or _parse_date(source["repo_path"]),
@@ -627,6 +627,7 @@ class RasterOverlayService:
                     series_key_source=asset.get("repo_path") if asset["kind"] == "huggingface" else None,
                 )
                 asset.update(metadata)
+                asset["id"] = asset_id
                 asset["source_type"] = (
                     "Hugging Face map data; the catalog does not say where the measurements came from."
                     if asset["kind"] == "huggingface"

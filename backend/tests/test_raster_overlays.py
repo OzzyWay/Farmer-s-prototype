@@ -149,6 +149,33 @@ def test_hugging_face_discovery_is_metadata_only_and_uses_catalog(tmp_path, monk
     assert downloaded == []
 
 
+def test_hugging_face_asset_ids_survive_repository_revision_changes(monkeypatch):
+    revisions = iter(("revision-one", "revision-two"))
+    sibling = SimpleNamespace(
+        rfilename="ECOSTRESS/ECOSTRESS_SDS_LST_2024-01-01.tif",
+        blob_id="blob",
+        size=100,
+    )
+
+    class FakeHfApi:
+        def __init__(self, token):
+            pass
+
+        def dataset_info(self, repo_id, files_metadata):
+            assert repo_id == "OzzyWay/Farmers-Helper"
+            revision = next(revisions)
+            return SimpleNamespace(sha=revision, siblings=[sibling])
+
+    monkeypatch.setenv("HF_TOKEN", "test-token")
+    monkeypatch.setattr("huggingface_hub.HfApi", FakeHfApi)
+    service = RasterOverlayService()
+
+    first_id = service.catalog()[0]["records"][0]["id"]
+    refreshed_id = service.catalog(refresh=True)[0]["records"][0]["id"]
+
+    assert refreshed_id == first_id
+
+
 def test_hugging_face_download_occurs_only_when_asset_is_selected(tmp_path, monkeypatch):
     raster_path = tmp_path / "selected.tif"
     with rasterio.open(
@@ -191,6 +218,7 @@ def test_hugging_face_download_occurs_only_when_asset_is_selected(tmp_path, monk
     record = service.catalog()[0]["records"][0]
     assert downloads == []
     asset = service.asset(record["id"])
+    assert asset["id"] == record["id"]
     assert len(downloads) == 1
     assert downloads[0]["filename"] == "ECOSTRESS/ECOSTRESS_SDS_LST_2024-01-01.tif"
     assert downloads[0]["token"] == "test-token"
