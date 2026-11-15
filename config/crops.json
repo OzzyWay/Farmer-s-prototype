@@ -1,0 +1,561 @@
+{
+  "_comment": "Crop facts used by the rotation explorer. Values are written for Central Texas (Blackland Prairie and Post Oak Savannah, USDA zone 8b, about 750-900 mm of rain a year) and are simplified to low/medium/high so rules can use them. They are a starting point: check them with your county extension agent before relying on them. Each crop lists the sources the values were read from. Months are 1=January .. 12=December. 'growing_months' are months of active growth; 'in_ground_months' also include months a perennial is dormant but still covers and roots the soil.",
+  "_enums": {
+    "level": ["low", "medium", "high"],
+    "forage_value": ["none", "low", "medium", "high"],
+    "income": ["none", "low", "medium", "high"],
+    "root_depth": ["shallow", "medium", "deep"],
+    "season": ["warm", "cool", "perennial"]
+  },
+  "crops": [
+    {
+      "id": "bermudagrass",
+      "name": "Bermudagrass",
+      "category": "perennial_forage",
+      "annual": false,
+      "season": "perennial",
+      "plant_months": [4, 5, 6],
+      "growing_months": [4, 5, 6, 7, 8, 9, 10],
+      "in_ground_months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "water_need": "medium",
+      "drought_tolerance": "high",
+      "heat_tolerance": "high",
+      "frost_tolerance": "high",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "medium",
+      "forage_value": "high",
+      "residue": "medium",
+      "erosion_protection": "high",
+      "pest_families": ["warm_grass"],
+      "income": "medium",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 500},
+      "soil_note": "A perennial sod keeps living roots and cover on the soil all year, which holds soil in place and lets rain soak in.",
+      "risks": [
+        "Needs nitrogen fertilizer to stay productive; costs rise with fertilizer prices.",
+        "Fall armyworms can strip pastures in late summer; scout after rains."
+      ],
+      "sources": [
+        {
+          "title": "Forage Bermudagrass: Selection, Establishment and Management (Texas A&M AgriLife Extension)",
+          "url": "https://agrilifeextension.tamu.edu/asset-external/forage-bermudagrass-selection-establishment-and-management/"
+        }
+      ]
+    },
+    {
+      "id": "native_grass_mix",
+      "name": "Native warm-season grass mix",
+      "category": "native_perennial",
+      "annual": false,
+      "season": "perennial",
+      "plant_months": [3, 4, 5],
+      "growing_months": [4, 5, 6, 7, 8, 9, 10],
+      "in_ground_months": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "water_need": "low",
+      "drought_tolerance": "high",
+      "heat_tolerance": "high",
+      "frost_tolerance": "high",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "deep",
+      "forage_value": "medium",
+      "residue": "high",
+      "erosion_protection": "high",
+      "pest_families": ["warm_grass"],
+      "income": "low",
+      "field_passes_per_year": 1,
+      "limits": {"min_rain_mm_rainfed": 400},
+      "soil_note": "Native grasses such as switchgrass root more than 3 m (10 ft) deep, adding organic matter deep in the soil and opening channels for water.",
+      "risks": [
+        "Slow to establish: expect one to three years before a full stand, with weed control in the first year.",
+        "Seed of local ecotypes can be costly; ask your NRCS office about cost-share programs."
+      ],
+      "sources": [
+        {
+          "title": "Switchgrass (Panicum virgatum) Plant Guide (USDA NRCS)",
+          "url": "https://plants.usda.gov/DocumentLibrary/plantguide/pdf/pg_pavi2.pdf"
+        },
+        {
+          "title": "'Alamo' switchgrass Conservation Plant Release (USDA NRCS Texas)",
+          "url": "https://nrcs.usda.gov/plantmaterials/txpmcrb11189.pdf"
+        }
+      ]
+    },
+    {
+      "id": "sorghum_sudangrass",
+      "name": "Sorghum-sudangrass",
+      "category": "summer_forage",
+      "annual": true,
+      "season": "warm",
+      "plant_months": [5, 6],
+      "growing_months": [5, 6, 7, 8, 9],
+      "in_ground_months": [5, 6, 7, 8, 9],
+      "water_need": "medium",
+      "drought_tolerance": "high",
+      "heat_tolerance": "high",
+      "frost_tolerance": "low",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "deep",
+      "forage_value": "high",
+      "residue": "high",
+      "erosion_protection": "high",
+      "pest_families": ["sorghum"],
+      "income": "medium",
+      "field_passes_per_year": 3,
+      "limits": {"min_rain_mm_rainfed": 450},
+      "soil_note": "Few crops add as much organic matter; mowing it once pushes roots deeper so they break up compacted subsoil.",
+      "risks": [
+        "Can cause prussic acid poisoning in livestock when young, drought-stressed or frosted; follow grazing guidelines.",
+        "Needs good fertility, usually extra nitrogen, to produce well."
+      ],
+      "sources": [
+        {
+          "title": "Sorghum Sudangrass, Managing Cover Crops Profitably 3rd ed. (SARE)",
+          "url": "https://www.sare.org/publications/managing-cover-crops-profitably/nonlegume-cover-crops/sorghum-sudangrass/"
+        }
+      ]
+    },
+    {
+      "id": "forage_oats",
+      "name": "Forage oats",
+      "category": "cool_forage",
+      "annual": true,
+      "season": "cool",
+      "plant_months": [9, 10],
+      "growing_months": [10, 11, 12, 1, 2, 3, 4],
+      "in_ground_months": [10, 11, 12, 1, 2, 3, 4],
+      "water_need": "medium",
+      "drought_tolerance": "medium",
+      "heat_tolerance": "low",
+      "frost_tolerance": "medium",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "medium",
+      "forage_value": "high",
+      "residue": "medium",
+      "erosion_protection": "high",
+      "pest_families": ["cereal"],
+      "income": "low",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 450},
+      "soil_note": "Quick fall cover that protects bare soil over winter and feeds livestock when warm-season grass is dormant.",
+      "risks": [
+        "Less cold hardy than wheat or ryegrass; a hard freeze can thin the stand.",
+        "Leaf rust is common in wet springs; choose resistant varieties."
+      ],
+      "sources": [
+        {
+          "title": "Oats, Managing Cover Crops Profitably 3rd ed. (SARE)",
+          "url": "https://www.sare.org/publications/managing-cover-crops-profitably/nonlegume-cover-crops/oats/"
+        }
+      ]
+    },
+    {
+      "id": "annual_ryegrass",
+      "name": "Annual ryegrass",
+      "category": "cool_forage",
+      "annual": true,
+      "season": "cool",
+      "plant_months": [9, 10],
+      "growing_months": [10, 11, 12, 1, 2, 3, 4, 5],
+      "in_ground_months": [10, 11, 12, 1, 2, 3, 4, 5],
+      "water_need": "high",
+      "drought_tolerance": "low",
+      "heat_tolerance": "low",
+      "frost_tolerance": "high",
+      "wet_soil_tolerance": "high",
+      "nitrogen_fixing": false,
+      "root_depth": "medium",
+      "forage_value": "high",
+      "residue": "medium",
+      "erosion_protection": "high",
+      "pest_families": ["cool_grass"],
+      "income": "low",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 600},
+      "soil_note": "Its dense, fibrous roots hold soil and improve structure, and it grows on clay and poorly drained soils where small grains struggle.",
+      "risks": [
+        "Can become a serious weed in following wheat or oat crops in the Southern Plains, and has developed herbicide resistance.",
+        "A heavy user of soil moisture; performs poorly in drought."
+      ],
+      "sources": [
+        {
+          "title": "Annual Ryegrass, Managing Cover Crops Profitably 3rd ed. (SARE)",
+          "url": "https://www.sare.org/publications/managing-cover-crops-profitably/nonlegume-cover-crops/annual-ryegrass/"
+        }
+      ]
+    },
+    {
+      "id": "crimson_clover",
+      "name": "Crimson clover",
+      "category": "legume_cover",
+      "annual": true,
+      "season": "cool",
+      "plant_months": [9, 10],
+      "growing_months": [10, 11, 12, 1, 2, 3, 4],
+      "in_ground_months": [10, 11, 12, 1, 2, 3, 4],
+      "water_need": "medium",
+      "drought_tolerance": "medium",
+      "heat_tolerance": "low",
+      "frost_tolerance": "medium",
+      "wet_soil_tolerance": "low",
+      "nitrogen_fixing": true,
+      "root_depth": "medium",
+      "forage_value": "high",
+      "residue": "medium",
+      "erosion_protection": "medium",
+      "pest_families": ["legume"],
+      "income": "none",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 500},
+      "soil_note": "A legume: bacteria in its root nodules take nitrogen from the air, so the next crop needs less fertilizer.",
+      "risks": [
+        "Fares poorly on heavy clay and waterlogged soils.",
+        "Dry soil in fall often hinders establishment in the South."
+      ],
+      "sources": [
+        {
+          "title": "Crimson Clover, Managing Cover Crops Profitably 3rd ed. (SARE)",
+          "url": "https://www.sare.org/publications/managing-cover-crops-profitably/legume-cover-crops/crimson-clover/"
+        }
+      ]
+    },
+    {
+      "id": "hairy_vetch",
+      "name": "Hairy vetch",
+      "category": "legume_cover",
+      "annual": true,
+      "season": "cool",
+      "plant_months": [9, 10],
+      "growing_months": [10, 11, 12, 1, 2, 3, 4],
+      "in_ground_months": [10, 11, 12, 1, 2, 3, 4],
+      "water_need": "low",
+      "drought_tolerance": "medium",
+      "heat_tolerance": "low",
+      "frost_tolerance": "high",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": true,
+      "root_depth": "medium",
+      "forage_value": "medium",
+      "residue": "low",
+      "erosion_protection": "high",
+      "pest_families": ["legume"],
+      "income": "none",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 380},
+      "soil_note": "One of the top nitrogen-fixing covers (often replacing most nitrogen fertilizer for the next crop) and it loosens topsoil, though its residue breaks down fast and builds little long-term organic matter.",
+      "risks": [
+        "Hard seed can make it a weed in later crops if it is allowed to set seed; time termination carefully.",
+        "Viny growth can tangle equipment; mixing with a cereal helps."
+      ],
+      "sources": [
+        {
+          "title": "Hairy Vetch, Managing Cover Crops Profitably 3rd ed. (SARE)",
+          "url": "https://www.sare.org/publications/managing-cover-crops-profitably/legume-cover-crops/hairy-vetch/"
+        }
+      ]
+    },
+    {
+      "id": "cowpea",
+      "name": "Cowpea",
+      "category": "summer_legume_cover",
+      "annual": true,
+      "season": "warm",
+      "plant_months": [5, 6, 7],
+      "growing_months": [6, 7, 8, 9],
+      "in_ground_months": [6, 7, 8, 9],
+      "water_need": "low",
+      "drought_tolerance": "high",
+      "heat_tolerance": "high",
+      "frost_tolerance": "low",
+      "wet_soil_tolerance": "low",
+      "nitrogen_fixing": true,
+      "root_depth": "deep",
+      "forage_value": "medium",
+      "residue": "medium",
+      "erosion_protection": "medium",
+      "pest_families": ["legume"],
+      "income": "low",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 400},
+      "soil_note": "A drought-tolerant summer legume: it fixes nitrogen and its taproots can reach about 2.4 m (8 ft) for water.",
+      "risks": [
+        "Less tolerant of waterlogging than soybeans; seed rots in cool, wet soils.",
+        "Weedy if rain falls just after planting, before the canopy closes."
+      ],
+      "sources": [
+        {
+          "title": "Cowpeas, Managing Cover Crops Profitably 3rd ed. (SARE)",
+          "url": "https://www.sare.org/publications/managing-cover-crops-profitably/legume-cover-crops/cowpeas/"
+        }
+      ]
+    },
+    {
+      "id": "sunn_hemp",
+      "name": "Sunn hemp",
+      "category": "summer_legume_cover",
+      "annual": true,
+      "season": "warm",
+      "plant_months": [5, 6, 7],
+      "growing_months": [6, 7, 8, 9],
+      "in_ground_months": [6, 7, 8, 9],
+      "water_need": "low",
+      "drought_tolerance": "high",
+      "heat_tolerance": "high",
+      "frost_tolerance": "low",
+      "wet_soil_tolerance": "low",
+      "nitrogen_fixing": true,
+      "root_depth": "deep",
+      "forage_value": "low",
+      "residue": "high",
+      "erosion_protection": "medium",
+      "pest_families": ["legume"],
+      "income": "none",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 400},
+      "soil_note": "A fast summer legume: in 8 to 12 weeks it can produce over 2,200 kg/ha (5,000 lb/acre) of biomass and fix over 110 kg/ha (100 lb/acre) of nitrogen.",
+      "risks": [
+        "Seed supply is limited and can be expensive.",
+        "Tall, fibrous stems can be hard to terminate if left too long."
+      ],
+      "sources": [
+        {
+          "title": "Sunn Hemp: A Cover Crop for Southern Farming Systems (USDA NRCS)",
+          "url": "https://www.nrcs.usda.gov/sites/default/files/2023-04/nrcs142p2_053283.pdf"
+        },
+        {
+          "title": "Sunn Hemp (Crotalaria juncea) Plant Guide (USDA NRCS)",
+          "url": "https://plants.usda.gov/DocumentLibrary/plantguide/pdf/pg_crju.pdf"
+        }
+      ]
+    },
+    {
+      "id": "winter_wheat_cover",
+      "name": "Winter wheat (cover crop)",
+      "category": "cereal_cover",
+      "annual": true,
+      "season": "cool",
+      "plant_months": [10, 11],
+      "growing_months": [11, 12, 1, 2, 3, 4],
+      "in_ground_months": [11, 12, 1, 2, 3, 4],
+      "water_need": "medium",
+      "drought_tolerance": "medium",
+      "heat_tolerance": "low",
+      "frost_tolerance": "high",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "medium",
+      "forage_value": "medium",
+      "residue": "high",
+      "erosion_protection": "high",
+      "pest_families": ["cereal"],
+      "income": "none",
+      "field_passes_per_year": 2,
+      "limits": {"min_rain_mm_rainfed": 380},
+      "soil_note": "A cereal cover that holds soil over winter, takes up leftover nitrogen so it does not wash away, and leaves long-lasting residue.",
+      "risks": [
+        "Can host the same diseases and insects as a wheat or oat grain crop that follows it.",
+        "Must be terminated early enough that it does not dry out the soil for the next crop."
+      ],
+      "sources": [
+        {
+          "title": "Winter Wheat, Managing Cover Crops Profitably 3rd ed. (SARE)",
+          "url": "https://www.sare.org/publications/managing-cover-crops-profitably/nonlegume-cover-crops/winter-wheat/"
+        }
+      ]
+    },
+    {
+      "id": "corn",
+      "name": "Corn",
+      "category": "row_crop",
+      "annual": true,
+      "season": "warm",
+      "plant_months": [2, 3],
+      "growing_months": [3, 4, 5, 6, 7],
+      "in_ground_months": [3, 4, 5, 6, 7],
+      "water_need": "high",
+      "drought_tolerance": "low",
+      "heat_tolerance": "medium",
+      "frost_tolerance": "low",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "medium",
+      "forage_value": "medium",
+      "residue": "high",
+      "erosion_protection": "medium",
+      "pest_families": ["corn"],
+      "income": "high",
+      "field_passes_per_year": 5,
+      "limits": {"min_rain_mm_rainfed": 800},
+      "soil_note": "Leaves a lot of residue that can protect the soil if it is left on the surface.",
+      "risks": [
+        "Heat and drought during pollination (late May to June) cut yields and raise the risk of aflatoxin.",
+        "Needs more water than sorghum to produce its first bushel of grain."
+      ],
+      "sources": [
+        {
+          "title": "Corn in Texas, crop brief (Texas A&M AgriLife Extension)",
+          "url": "https://aggie-horticulture.tamu.edu/vegetable/guides/crop-briefs/corn-in-texas/"
+        },
+        {
+          "title": "Managing Insect and Mite Pests of Texas Corn (Texas A&M AgriLife Extension)",
+          "url": "https://extensionentomology.tamu.edu/resources/management-guides/managing-insect-and-mite-pests-of-texas-corn/"
+        }
+      ]
+    },
+    {
+      "id": "grain_sorghum",
+      "name": "Grain sorghum",
+      "category": "row_crop",
+      "annual": true,
+      "season": "warm",
+      "plant_months": [3, 4],
+      "growing_months": [4, 5, 6, 7],
+      "in_ground_months": [4, 5, 6, 7],
+      "water_need": "medium",
+      "drought_tolerance": "high",
+      "heat_tolerance": "high",
+      "frost_tolerance": "low",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "deep",
+      "forage_value": "medium",
+      "residue": "high",
+      "erosion_protection": "medium",
+      "pest_families": ["sorghum"],
+      "income": "medium",
+      "field_passes_per_year": 4,
+      "limits": {"min_rain_mm_rainfed": 450},
+      "soil_note": "A drought-tolerant grain that needs less water than corn and leaves heavy residue to protect the soil.",
+      "risks": [
+        "Sugarcane aphids and headworms need scouting through the season.",
+        "Rotating with other crops helps break insect, weed and disease cycles."
+      ],
+      "sources": [
+        {
+          "title": "Sorghum in Texas, crop brief (Texas A&M AgriLife Extension)",
+          "url": "https://aggie-horticulture.tamu.edu/vegetable/guides/crop-briefs/sorghum-in-texas/"
+        },
+        {
+          "title": "Agronomic Management for Texas Panhandle Sorghum, SCSC-2026-09 (Texas A&M AgriLife Extension)",
+          "url": "https://soilcrop.tamu.edu/wp-content/uploads/sites/16/2026/06/SCSC-2026-09-Agronomic-Management-for-Texas-Panhandle-Sorghum-27May26_.pdf"
+        }
+      ]
+    },
+    {
+      "id": "cotton",
+      "name": "Cotton",
+      "category": "row_crop",
+      "annual": true,
+      "season": "warm",
+      "plant_months": [4, 5],
+      "growing_months": [5, 6, 7, 8, 9],
+      "in_ground_months": [5, 6, 7, 8, 9],
+      "water_need": "medium",
+      "drought_tolerance": "high",
+      "heat_tolerance": "high",
+      "frost_tolerance": "low",
+      "wet_soil_tolerance": "low",
+      "nitrogen_fixing": false,
+      "root_depth": "deep",
+      "forage_value": "none",
+      "residue": "low",
+      "erosion_protection": "low",
+      "pest_families": ["malvaceae"],
+      "income": "high",
+      "field_passes_per_year": 6,
+      "limits": {"min_rain_mm_rainfed": 450},
+      "soil_note": "Its deep taproot reaches water lower in the profile, but it leaves little residue, so a cover crop after harvest protects the soil.",
+      "risks": [
+        "Cotton root rot is common on the alkaline clay soils of Central Texas.",
+        "Fleahoppers and other insects need scouting; wet fields can delay planting and harvest."
+      ],
+      "sources": [
+        {
+          "title": "Cotton in Texas, crop brief (Texas A&M AgriLife Extension)",
+          "url": "https://aggie-horticulture.tamu.edu/vegetable/guides/crop-briefs/cotton-in-texas/"
+        },
+        {
+          "title": "Managing Cotton Insects in Texas (Texas A&M AgriLife Extension)",
+          "url": "https://extensionentomology.tamu.edu/resources/management-guides/managing-cotton-insects-in-texas/"
+        }
+      ]
+    },
+    {
+      "id": "soybean",
+      "name": "Soybean",
+      "category": "row_crop",
+      "annual": true,
+      "season": "warm",
+      "plant_months": [4, 5],
+      "growing_months": [5, 6, 7, 8],
+      "in_ground_months": [5, 6, 7, 8],
+      "water_need": "medium",
+      "drought_tolerance": "low",
+      "heat_tolerance": "medium",
+      "frost_tolerance": "low",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": true,
+      "root_depth": "medium",
+      "forage_value": "low",
+      "residue": "low",
+      "erosion_protection": "low",
+      "pest_families": ["legume"],
+      "income": "high",
+      "field_passes_per_year": 4,
+      "limits": {"min_rain_mm_rainfed": 650},
+      "soil_note": "A legume grain crop that fixes much of its own nitrogen, though its light residue leaves soil exposed after harvest.",
+      "risks": [
+        "Stink bugs and other insects need scouting in late summer.",
+        "Late-season drought on dryland fields cuts yields; planting on beds helps drainage in wet areas."
+      ],
+      "sources": [
+        {
+          "title": "Managing Soybean Insects in Texas (Texas A&M AgriLife Extension)",
+          "url": "https://extensionentomology.tamu.edu/resources/management-guides/managing-soybean-insects-in-texas/"
+        }
+      ]
+    },
+    {
+      "id": "winter_wheat_grain",
+      "name": "Winter wheat (grain)",
+      "category": "row_crop",
+      "annual": true,
+      "season": "cool",
+      "plant_months": [10, 11],
+      "growing_months": [11, 12, 1, 2, 3, 4, 5],
+      "in_ground_months": [11, 12, 1, 2, 3, 4, 5],
+      "water_need": "medium",
+      "drought_tolerance": "medium",
+      "heat_tolerance": "low",
+      "frost_tolerance": "high",
+      "wet_soil_tolerance": "medium",
+      "nitrogen_fixing": false,
+      "root_depth": "medium",
+      "forage_value": "medium",
+      "residue": "high",
+      "erosion_protection": "high",
+      "pest_families": ["cereal"],
+      "income": "medium",
+      "field_passes_per_year": 4,
+      "limits": {"min_rain_mm_rainfed": 380},
+      "soil_note": "Covers the soil through the wet winter and spring and can be grazed in winter as a dual-purpose crop.",
+      "risks": [
+        "Grazing past first hollow stem lowers grain yield; follow grazing-termination guidelines.",
+        "Rust and other leaf diseases are worse in wet springs."
+      ],
+      "sources": [
+        {
+          "title": "Texas Small Grains Production Practices (Texas A&M AgriLife)",
+          "url": "https://varietytesting.tamu.edu/texas-small-grains-production-practices/"
+        },
+        {
+          "title": "Winter Wheat Management Calendar (Texas A&M AgriLife Extension)",
+          "url": "https://mytexas.ag.tamu.edu/wp-content/uploads/2026/02/winter-wheat-management-calendar.pdf"
+        }
+      ]
+    }
+  ]
+}

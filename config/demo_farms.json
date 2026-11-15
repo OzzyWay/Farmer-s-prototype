@@ -1,0 +1,12 @@
+{
+  "_note": "Webberwood ranch, 20326 FM 969, Webberville, TX 78653 (32 acres). The point is a pasture spot near the address: CDL shows Grass/Pasture in 7 of 8 years (2018-2025), SSURGO soil is Tinn clay. The listing's own pin (30.235748, -97.494769) falls on a wooded pixel.",
+  "farms": [
+    {
+      "id": "webberwood",
+      "name": "Webberwood Ranch, Webberville TX",
+      "lat": 30.233589,
+      "lon": -97.496006,
+      "placeholder": false
+    }
+  ]
+}
