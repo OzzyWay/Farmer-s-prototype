@@ -1,3 +1,6 @@
+import { LINKS, dataLimitations } from "../landing/copy.js";
+import ExternalLink from "../landing/ExternalLink.jsx";
+
 /**
  * Every data source with its resolution and licence, and what the results can and cannot say.
  * outlook: the outlook part of the /api/rotation answer (to name the models when loaded)
@@ -48,6 +51,20 @@ export default function DataLimitations({ outlook }) {
           <strong>Map.</strong> Basemap © OpenStreetMap contributors via OpenFreeMap; terrain from Mapzen terrain
           tiles on AWS.
         </li>
+        <li>
+          <strong>Weather.</strong> The 7-day forecast and official alerts come from the National Weather Service
+          (US only). Farm alerts are worked out from the next 3 days of that forecast and are suggestions.
+        </li>
+        <li>
+          <strong>Photo and fonts.</strong> Hero photo by Federico Respini on Unsplash (Unsplash License). Fraunces
+          and Inter fonts under the SIL Open Font License. All are served from this site.
+        </li>
+      </ul>
+      <p className="small-print">{dataLimitations.helpLead}</p>
+      <ul className="help-links">
+        <li><ExternalLink href={LINKS.extension.href}>{LINKS.extension.label}</ExternalLink></li>
+        <li><ExternalLink href={LINKS.nrcs.href}>{LINKS.nrcs.label}</ExternalLink></li>
+        <li><ExternalLink href={LINKS.serviceCenter.href}>{LINKS.serviceCenter.label}</ExternalLink></li>
       </ul>
       <p className="small-print">
         This tool supports your judgment as a farmer. It does not replace it, or your county extension agent.

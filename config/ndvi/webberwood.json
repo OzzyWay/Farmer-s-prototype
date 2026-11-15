@@ -1,0 +1,452 @@
+{
+ "status": "ok",
+ "source": "NASA MODIS MOD13Q1 (ORNL DAAC)",
+ "resolution_m": 250,
+ "product": "MOD13Q1 v061, 16-day composite",
+ "period": "2023-2025",
+ "location": {
+  "lat": 30.233589,
+  "lon": -97.496006
+ },
+ "fetched_on": "2026-11-14",
+ "bare_threshold": 0.25,
+ "method": "A month is bare in a year when its highest good-quality NDVI is below 0.25. Quality ranks 0 (good) and 1 (marginal) are kept.",
+ "series": [
+  {
+   "date": "2023-01-01",
+   "ndvi": 0.589,
+   "quality": "good"
+  },
+  {
+   "date": "2023-01-17",
+   "ndvi": 0.595,
+   "quality": "good"
+  },
+  {
+   "date": "2023-02-02",
+   "ndvi": 0.605,
+   "quality": "good"
+  },
+  {
+   "date": "2023-02-18",
+   "ndvi": 0.714,
+   "quality": "good"
+  },
+  {
+   "date": "2023-03-06",
+   "ndvi": 0.764,
+   "quality": "good"
+  },
+  {
+   "date": "2023-03-22",
+   "ndvi": 0.722,
+   "quality": "good"
+  },
+  {
+   "date": "2023-04-07",
+   "ndvi": 0.766,
+   "quality": "good"
+  },
+  {
+   "date": "2023-04-23",
+   "ndvi": 0.737,
+   "quality": "good"
+  },
+  {
+   "date": "2023-05-09",
+   "ndvi": 0.677,
+   "quality": "marginal"
+  },
+  {
+   "date": "2023-05-25",
+   "ndvi": 0.701,
+   "quality": "marginal"
+  },
+  {
+   "date": "2023-06-10",
+   "ndvi": 0.611,
+   "quality": "good"
+  },
+  {
+   "date": "2023-06-26",
+   "ndvi": 0.592,
+   "quality": "good"
+  },
+  {
+   "date": "2023-07-12",
+   "ndvi": 0.484,
+   "quality": "good"
+  },
+  {
+   "date": "2023-07-28",
+   "ndvi": 0.408,
+   "quality": "good"
+  },
+  {
+   "date": "2023-08-13",
+   "ndvi": 0.416,
+   "quality": "good"
+  },
+  {
+   "date": "2023-08-29",
+   "ndvi": 0.389,
+   "quality": "good"
+  },
+  {
+   "date": "2023-09-14",
+   "ndvi": 0.356,
+   "quality": "good"
+  },
+  {
+   "date": "2023-09-30",
+   "ndvi": 0.382,
+   "quality": "good"
+  },
+  {
+   "date": "2023-10-16",
+   "ndvi": 0.325,
+   "quality": "good"
+  },
+  {
+   "date": "2023-11-01",
+   "ndvi": 0.586,
+   "quality": "good"
+  },
+  {
+   "date": "2023-11-17",
+   "ndvi": 0.581,
+   "quality": "marginal"
+  },
+  {
+   "date": "2023-12-03",
+   "ndvi": 0.596,
+   "quality": "good"
+  },
+  {
+   "date": "2023-12-19",
+   "ndvi": 0.615,
+   "quality": "good"
+  },
+  {
+   "date": "2024-01-01",
+   "ndvi": 0.623,
+   "quality": "good"
+  },
+  {
+   "date": "2024-01-17",
+   "ndvi": 0.606,
+   "quality": "good"
+  },
+  {
+   "date": "2024-02-02",
+   "ndvi": 0.61,
+   "quality": "good"
+  },
+  {
+   "date": "2024-02-18",
+   "ndvi": 0.687,
+   "quality": "good"
+  },
+  {
+   "date": "2024-03-05",
+   "ndvi": 0.699,
+   "quality": "good"
+  },
+  {
+   "date": "2024-03-21",
+   "ndvi": 0.786,
+   "quality": "good"
+  },
+  {
+   "date": "2024-04-06",
+   "ndvi": 0.753,
+   "quality": "good"
+  },
+  {
+   "date": "2024-04-22",
+   "ndvi": 0.809,
+   "quality": "marginal"
+  },
+  {
+   "date": "2024-05-08",
+   "ndvi": 0.589,
+   "quality": "good"
+  },
+  {
+   "date": "2024-05-24",
+   "ndvi": 0.548,
+   "quality": "good"
+  },
+  {
+   "date": "2024-06-09",
+   "ndvi": 0.555,
+   "quality": "good"
+  },
+  {
+   "date": "2024-06-25",
+   "ndvi": 0.613,
+   "quality": "good"
+  },
+  {
+   "date": "2024-07-11",
+   "ndvi": 0.575,
+   "quality": "good"
+  },
+  {
+   "date": "2024-07-27",
+   "ndvi": 0.668,
+   "quality": "good"
+  },
+  {
+   "date": "2024-08-12",
+   "ndvi": 0.661,
+   "quality": "good"
+  },
+  {
+   "date": "2024-08-28",
+   "ndvi": 0.602,
+   "quality": "good"
+  },
+  {
+   "date": "2024-09-13",
+   "ndvi": 0.538,
+   "quality": "good"
+  },
+  {
+   "date": "2024-09-29",
+   "ndvi": 0.434,
+   "quality": "good"
+  },
+  {
+   "date": "2024-10-15",
+   "ndvi": 0.443,
+   "quality": "marginal"
+  },
+  {
+   "date": "2024-10-31",
+   "ndvi": 0.402,
+   "quality": "good"
+  },
+  {
+   "date": "2024-11-16",
+   "ndvi": 0.408,
+   "quality": "good"
+  },
+  {
+   "date": "2024-12-02",
+   "ndvi": 0.358,
+   "quality": "good"
+  },
+  {
+   "date": "2024-12-18",
+   "ndvi": 0.471,
+   "quality": "good"
+  },
+  {
+   "date": "2025-01-01",
+   "ndvi": 0.529,
+   "quality": "good"
+  },
+  {
+   "date": "2025-01-17",
+   "ndvi": 0.516,
+   "quality": "good"
+  },
+  {
+   "date": "2025-02-02",
+   "ndvi": 0.57,
+   "quality": "good"
+  },
+  {
+   "date": "2025-02-18",
+   "ndvi": 0.595,
+   "quality": "good"
+  },
+  {
+   "date": "2025-03-06",
+   "ndvi": 0.648,
+   "quality": "good"
+  },
+  {
+   "date": "2025-03-22",
+   "ndvi": 0.572,
+   "quality": "good"
+  },
+  {
+   "date": "2025-04-07",
+   "ndvi": 0.688,
+   "quality": "good"
+  },
+  {
+   "date": "2025-04-23",
+   "ndvi": 0.586,
+   "quality": "marginal"
+  },
+  {
+   "date": "2025-05-09",
+   "ndvi": 0.534,
+   "quality": "good"
+  },
+  {
+   "date": "2025-05-25",
+   "ndvi": 0.656,
+   "quality": "marginal"
+  },
+  {
+   "date": "2025-06-10",
+   "ndvi": 0.613,
+   "quality": "marginal"
+  },
+  {
+   "date": "2025-06-26",
+   "ndvi": 0.708,
+   "quality": "good"
+  },
+  {
+   "date": "2025-07-12",
+   "ndvi": 0.672,
+   "quality": "good"
+  },
+  {
+   "date": "2025-07-28",
+   "ndvi": 0.633,
+   "quality": "good"
+  },
+  {
+   "date": "2025-08-13",
+   "ndvi": 0.518,
+   "quality": "good"
+  },
+  {
+   "date": "2025-08-29",
+   "ndvi": 0.531,
+   "quality": "good"
+  },
+  {
+   "date": "2025-09-14",
+   "ndvi": 0.454,
+   "quality": "good"
+  },
+  {
+   "date": "2025-09-30",
+   "ndvi": 0.406,
+   "quality": "good"
+  },
+  {
+   "date": "2025-10-16",
+   "ndvi": 0.373,
+   "quality": "good"
+  },
+  {
+   "date": "2025-11-01",
+   "ndvi": 0.431,
+   "quality": "good"
+  },
+  {
+   "date": "2025-11-17",
+   "ndvi": 0.511,
+   "quality": "good"
+  },
+  {
+   "date": "2025-12-03",
+   "ndvi": 0.464,
+   "quality": "good"
+  },
+  {
+   "date": "2025-12-19",
+   "ndvi": 0.429,
+   "quality": "good"
+  }
+ ],
+ "monthly": [
+  {
+   "month": 1,
+   "typical_ndvi": 0.592,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 2,
+   "typical_ndvi": 0.607,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 3,
+   "typical_ndvi": 0.71,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 4,
+   "typical_ndvi": 0.745,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 5,
+   "typical_ndvi": 0.623,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 6,
+   "typical_ndvi": 0.612,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 7,
+   "typical_ndvi": 0.604,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 8,
+   "typical_ndvi": 0.524,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 9,
+   "typical_ndvi": 0.42,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 10,
+   "typical_ndvi": 0.388,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 11,
+   "typical_ndvi": 0.511,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  },
+  {
+   "month": 12,
+   "typical_ndvi": 0.468,
+   "years_seen": 3,
+   "bare_years": 0,
+   "bare_share": 0.0
+  }
+ ],
+ "bare_months": [],
+ "licence": "NASA LP DAAC / ORNL DAAC data: free to use, please cite the MOD13Q1 product.",
+ "farm_id": "webberwood",
+ "farm_name": "Webberwood Ranch, Webberville TX",
+ "built_by": "backend/scripts/build_ndvi.py"
+}

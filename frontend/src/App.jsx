@@ -6,6 +6,16 @@ import useFarmData from "./farmData/useFarmData.js";
 import usePrefersReducedMotion from "./farmData/usePrefersReducedMotion.js";
 import FieldSummary from "./fieldSummary/FieldSummary.jsx";
 import SummaryErrorBoundary from "./fieldSummary/SummaryErrorBoundary.jsx";
+import ClosingCta from "./landing/ClosingCta.jsx";
+import DepthStory from "./landing/DepthStory.jsx";
+import Hero from "./landing/Hero.jsx";
+import HowItWorks from "./landing/HowItWorks.jsx";
+import RuralBenefits from "./landing/RuralBenefits.jsx";
+import SkipLink from "./landing/SkipLink.jsx";
+import AlertToasts from "./weather/AlertToasts.jsx";
+import { allAlertIds } from "./weather/toasts.js";
+import useDismissed from "./weather/useDismissed.js";
+import useWeather from "./weather/useWeather.js";
 import { useElementSize, useMediaQuery } from "./layoutHooks.js";
 
 const NARROW = "(max-width: 767px)"; // below this the panel becomes a bottom sheet
@@ -33,6 +43,23 @@ export default function App() {
       : null;
   const summaryRef = useRef(null);
   const reducedMotion = usePrefersReducedMotion();
+
+  // National Weather Service forecast and alerts: one request feeds the card and the pop-ups.
+  const weather = useWeather(location?.lat, location?.lon);
+  const dismissed = useDismissed(location?.lat, location?.lon);
+  const alertIds = allAlertIds(weather.status === "loaded" ? weather.data : null);
+  const dismissedHere = alertIds.filter((id) => dismissed.ids.includes(id)).length;
+
+  // While the map is on screen, the alert pop-ups sit beside the data panel instead of over it.
+  const mapSectionRef = useRef(null);
+  const [mapVisible, setMapVisible] = useState(false);
+  useEffect(() => {
+    const el = mapSectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return undefined;
+    const observer = new IntersectionObserver(([e]) => setMapVisible(e.intersectionRatio > 0.5), { threshold: [0, 0.5, 1] });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // "Your field summary" button: scroll down to the summary and move keyboard focus there.
   function goToSummary() {
@@ -85,15 +112,28 @@ export default function App() {
 
   return (
     <>
-    {/* The map section fills the first screen; the field summary follows it as the page scrolls.
+    <SkipLink targetId="map-section" />
+    {/* Landing: plain bundled text with no data call, so it shows before the map and charts load. */}
+    <Hero />
+    <DepthStory />
+    <HowItWorks />
+    <RuralBenefits />
+
+    {/* The map section fills one screen; the field summary follows it as the page scrolls.
         --sheet-h lets the CSS lift the map controls above the bottom sheet on narrow screens. */}
-    <div className="app" style={{ "--sheet-h": `${narrow ? panel.height : 0}px` }}>
+    <div
+      id="map-section"
+      ref={mapSectionRef}
+      tabIndex={-1}
+      className="app"
+      style={{ "--sheet-h": `${narrow ? panel.height : 0}px` }}
+    >
       {location && (
         <TerrainMap lat={location.lat} lon={location.lon} onPick={pickOnMap} padding={padding} />
       )}
 
       <header ref={topbarRef} className="topbar frosted">
-        <h1 className="topbar-title">Field Shift</h1>
+        <h2 className="topbar-title">Field Shift</h2>
         {farms.length > 0 && (
           <div className="demo-farms" role="group" aria-label="Demo farms">
             {farms.map((f) => (
@@ -139,8 +179,21 @@ export default function App() {
     </div>
 
     <SummaryErrorBoundary resetKey={location ? `${location.lat},${location.lon}` : ""}>
-      <FieldSummary place={location} sectionRef={summaryRef} onSoilModelData={receiveSoilModelData} />
+      <FieldSummary
+        place={location}
+        sectionRef={summaryRef}
+        onSoilModelData={receiveSoilModelData}
+        weather={weather}
+        dismissedCount={dismissedHere}
+        onRestoreAlerts={dismissed.restore}
+      />
     </SummaryErrorBoundary>
+
+    <ClosingCta />
+
+    <div style={{ "--topbar-h": `${topbar.height}px` }}>
+      <AlertToasts weather={weather} dismissed={dismissed} mapVisible={mapVisible} />
+    </div>
     </>
   );
 }

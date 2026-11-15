@@ -21,12 +21,14 @@ Hackathon project for the challenge "Field Shift: Adapting Farms with NASA Data"
 - The old `Farmers-Helpers/` clone was deleted from this workspace on 2026-11-15 at the user's request. The team's version lives on GitHub (github.com/OzzyWay/Farmers-Helpers); this project never depended on it.
 - Secrets live in repo-root `.env` (saved as UTF-16; backend detects the encoding). Never read, print or copy secret values, never send them to the browser. Variable names: `EARTHDATA_TOKEN` (NASA Earthdata Login bearer token, needed for IMERG, GRACE and SMAP), `NASS_QUICKSTATS_API_KEY`, `SERPAPI_API_KEY` (unused). Remind the user to revoke and regenerate the Earthdata token after the hackathon, because it was pasted in chat.
 - Demo farm: Webberwood Ranch, Webberville TX, 30.233589, -97.496006 in `config/demo_farms.json` (a pasture pixel near 20326 FM 969; the listing pin itself is a wooded pixel). Fredericksburg (30.2752, -98.872) is a useful second test point with a layered soil.
-- No git repo in the project root. Don't set one up until the user asks.
+- Git repo in the project root since 2026-11-15, branch `main`, remote `origin` = github.com/rowitus/Farmer-s-prototype (first commit 307d657). Commit or push only when the user asks; never commit `.env`.
 - Free-tier limits: Open-Meteo about 3,900 weighted calls per new outlook location (600/min, 5,000/h, 10,000/day), so outlooks are precomputed for demo farms. CropScape requests sometimes hang; the CDL service retries once.
 
 ## Done
 - Map, location search (Census geocoder, Nominatim fallback, lat/lon, map click, demo-farm button), 1 km "estimated field area" box.
 - Spec `farm-data-panel` (all 10 tasks): `/api/farm-data` with NASA POWER climate normals, USDA SSURGO soil, USDA CDL crop history; disk cache; partial failure never 500s; Apple-style frosted panel with Climate / Soil / Crop history, chart, source tags, light/dark, accessibility.
+
+- Field helper (guided Q&A, no AI): floating "Ask about this field" button, 18 fixed questions plus keyword matching, answers built only from the loaded `/api/rotation` and `/api/weather` data with sources. Logic in `frontend/src/helper/answers.js` (tests `frontend/tests/answers.test.mjs` with real Webberwood fixtures), UI in `helper/FieldHelper.jsx`, glossary moved to `fieldSummary/terms.js`.
 
 ## In progress: spec `rotation-explorer`
 Requirements, design and tasks in `.kiro/specs/rotation-explorer/`. Rules-based (no black-box model): sourced 15-crop table for Central Texas (`config/crops.json`), exclusion rules, rotation templates, six 0-100 scores with formulas shown, findings, explanations with evidence, risks, gaps and confidence.

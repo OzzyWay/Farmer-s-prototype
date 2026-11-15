@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ViewState from "../farmData/ViewState.jsx";
+import FieldHelper from "../helper/FieldHelper.jsx";
+import ForecastCard from "../weather/ForecastCard.jsx";
 import { CalendarLegend } from "./CalendarStrip.jsx";
 import ClimateTrends from "./ClimateTrends.jsx";
 import DataLimitations from "./DataLimitations.jsx";
@@ -30,7 +32,7 @@ function loadChoices() {
  *
  * place: { lat, lon, label } of the selected location, or null
  */
-export default function FieldSummary({ place, sectionRef, onSoilModelData }) {
+export default function FieldSummary({ place, sectionRef, onSoilModelData, weather, dismissedCount, onRestoreAlerts }) {
   const [inputs, setInputs] = useState(loadChoices);
   const rotation = useRotation(place?.lat, place?.lon, inputs);
   const outlook = useOutlook(place?.lat, place?.lon, rotation.retry);
@@ -93,6 +95,9 @@ export default function FieldSummary({ place, sectionRef, onSoilModelData }) {
           </p>
         </header>
 
+        {/* The forecast does not wait for the rotation answer, which can take a minute. */}
+        <ForecastCard weather={weather} dismissedCount={dismissedCount} onRestore={onRestoreAlerts} />
+
         {rotation.status === "idle" && <ViewState kind="idle" message="Choose a location on the map to see rotation options." />}
         {waiting && (
           <ViewState kind="loading" message="Working out rotation options for this field… The first look at a new spot can take up to a minute." />
@@ -147,6 +152,15 @@ export default function FieldSummary({ place, sectionRef, onSoilModelData }) {
 
         <DataLimitations outlook={data?.outlook} />
       </div>
+
+      {/* Floating "Ask about this field" helper: fixed questions answered from the data above. */}
+      <FieldHelper
+        place={place}
+        rotation={data}
+        rotationState={data ? "ready" : rotation.status === "error" ? "error" : place ? "loading" : "idle"}
+        rotationError={rotation.error}
+        weather={weather}
+      />
 
       <div className="visually-hidden" role="status" aria-live="polite">{order.announcement}</div>
     </section>

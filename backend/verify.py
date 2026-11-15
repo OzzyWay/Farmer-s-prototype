@@ -104,4 +104,34 @@ except Exception as e:  # noqa: BLE001
 finally:
     main.app.dependency_overrides.clear()
 
+# Live check of /api/weather (National Weather Service, no key) with its own temporary cache.
+out.append(f"\n===== LIVE weather: {farm['name']} =====")
+wx_cache = DiskCache(tempfile.mkdtemp(prefix="weather_verify_"))
+main.app.dependency_overrides[main.get_cache] = lambda: wx_cache
+try:
+    with TestClient(main.app, raise_server_exceptions=False) as client:
+        start = time.perf_counter()
+        r = client.get("/api/weather", params={"lat": str(farm["lat"]), "lon": str(farm["lon"])})
+        out.append(f"HTTP {r.status_code} in {time.perf_counter() - start:.1f}s")
+        if r.status_code == 200:
+            body = r.json()
+            missing = {"location", "source", "page_url", "forecast", "alerts"} - set(body)
+            out.append(f"  keys: {'ok' if not missing else 'MISSING ' + str(missing)}")
+            f, a = body["forecast"], body["alerts"]
+            if f["status"] == "ok":
+                out.append(f"  forecast: ok, {len(f['periods'])} periods, first {f['periods'][0]['name']}")
+            else:
+                out.append(f"  forecast: WARNING unavailable - {f.get('reason')}")
+            if a["status"] == "ok":
+                out.append(f"  alerts: ok, {len(a['official'])} official, {len(a['farm'])} farm "
+                           f"({', '.join(x['title'] for x in a['farm']) or 'none'})")
+            else:
+                out.append(f"  alerts: WARNING unavailable - {a.get('reason')}")
+        else:
+            out.append(f"  body: {r.text[:300]}")
+except Exception as e:  # noqa: BLE001
+    out.append(f"  ERROR {type(e).__name__}: {e}")
+finally:
+    main.app.dependency_overrides.clear()
+
 (HERE / "verify_report.txt").write_text("\n".join(out), encoding="utf-8")
