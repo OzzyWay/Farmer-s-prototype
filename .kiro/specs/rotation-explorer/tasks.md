@@ -150,11 +150,12 @@ Order changed on 2026-11-15 after a review: the engine and API first (7–9), th
 - [ ] 10. MODIS NDVI (NASA satellite, no login)
   - Decision 2026-11-15 (option b): last 3 complete years, prepared for demo farms by `scripts/build_ndvi.py` into `config/ndvi/<farm>.json`; `app/ndvi_store.py` looks it up.
   - [x] 10.1 Probe the ORNL DAAC MODIS web service for Webberwood: the MOD13Q1 (and MYD13Q1) date list, one subset request, speed, size and limits. Save the responses as fixtures.
-  - [ ] 10.2 Implement `services/ndvi.py`: fetch the 16-day 250 m NDVI series for at least the last 10 complete years, apply the quality flags, compute the typical NDVI and the bare-soil share per month with a documented threshold, and cache monthly
+  - Status 2026-11-15: 10.2–10.4 are built in the reduced "option b" form (3 complete years, precomputed per demo farm instead of 10 years fetched live with a monthly cache). Other addresses show "satellite data prepared for demo farms only".
+  - [x] 10.2 Implement `services/ndvi.py`: fetch the 16-day 250 m NDVI series for at least the last 10 complete years, apply the quality flags, compute the typical NDVI and the bare-soil share per month with a documented threshold, and cache monthly
     - _Requirements: 21.1, 21.2, 21.6_
-  - [ ] 10.3 Use the satellite bare months in the current rotation's calendar and in a "bare soil" finding, and add NDVI to `/api/rotation`
+  - [x] 10.3 Use the satellite bare months in the current rotation's calendar and in a "bare soil" finding, and add NDVI to `/api/rotation`
     - _Requirements: 21.3, 4.5_
-  - [ ] 10.4 Write `test_ndvi.py`: parsing, quality filtering, monthly aggregation, bare-month rule, failure handling, cache
+  - [x] 10.4 Write `test_ndvi.py`: parsing, quality filtering, monthly aggregation, bare-month rule, failure handling, cache
     - _Requirements: 14.1_
 
 - [ ] 11. NASA water data: IMERG, GRACE and SMAP (needs `EARTHDATA_TOKEN`)
