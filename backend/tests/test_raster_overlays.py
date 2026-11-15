@@ -135,6 +135,7 @@ def test_hugging_face_discovery_is_metadata_only_and_uses_catalog(tmp_path, monk
         return str(tmp_path / "raster.tif")
 
     monkeypatch.setenv("HF_TOKEN", "test-token")
+    monkeypatch.setenv("HF_DATASET_REPO", "other-owner/other-dataset")
     monkeypatch.setenv("RASTER_DATA_DIRS", str(tmp_path))
     monkeypatch.setattr("huggingface_hub.HfApi", FakeHfApi)
     monkeypatch.setattr("huggingface_hub.hf_hub_download", fake_download)

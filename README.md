@@ -102,9 +102,9 @@ All farm data is requested by the Python backend, never by the browser. The map 
 
 The map discovers `.tif` and `.tiff` files in the Hugging Face dataset repository
 `OzzyWay/Farmers-Helper` through the Hub API. Copy `.env.example` to `.env` and set
-`HF_TOKEN` to a Hugging Face **read** token that can access this dataset. The token
-is read only by the Python backend; it is never returned to the browser. The
-optional `HF_DATASET_REPO` backend variable can point to another dataset repo.
+`HF_TOKEN` to a Hugging Face **read** token scoped to this dataset repository. The token
+is read only by the Python backend; it is never returned to the browser. The backend
+uses only `OzzyWay/Farmers-Helper` for Hugging Face raster discovery and downloads.
 
 Discovery lists repository metadata and raster paths only. A raster is downloaded
 when the user selects it, using the Hugging Face cache at `backend/cache/huggingface`;

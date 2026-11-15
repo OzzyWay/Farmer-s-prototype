@@ -459,7 +459,7 @@ class RasterOverlayService:
             self.warnings.append("Hugging Face map layers are unavailable because the required access token is not set.")
             return []
 
-        repo_id = os.getenv("HF_DATASET_REPO", HF_REPO_ID)
+        repo_id = HF_REPO_ID
         try:
             from huggingface_hub import HfApi
 
