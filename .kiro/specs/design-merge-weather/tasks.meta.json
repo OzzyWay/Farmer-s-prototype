@@ -1,0 +1,294 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1.1 Add an optional `headers` parameter to `get_json`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717701925
+      },
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717757891
+      },
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717792061
+      }
+    ],
+    "1.2 Create `backend/app/services/nws.py`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717702257
+      }
+    ],
+    "1.3 Add fixtures and unit tests for parsing and `farm_alerts`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717703127
+      }
+    ],
+    "2.1 Create `backend/app/weather_data.py`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717704264
+      }
+    ],
+    "2.2 Add `GET /api/weather` to `backend/app/main.py`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717705480
+      }
+    ],
+    "2.3 Add API tests to `backend/tests/test_nws.py`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717706857
+      }
+    ],
+    "3.1 Add a `/api/weather` check to `backend/verify.py`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717707666
+      }
+    ],
+    "4. Backend checkpoint": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717709113
+      }
+    ],
+    "5.1 Create `frontend/scripts/fetch-assets.mjs`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717710627
+      },
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717759027
+      },
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717793119
+      }
+    ],
+    "5.2 Run the script and add the licence and credit files": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717712471
+      }
+    ],
+    "5.3 Add colour tokens, the old-name mapping and fonts to `frontend/src/index.css`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717713714
+      }
+    ],
+    "5.4 Add the dark palette, re-measure contrast and write the header comment": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717714487
+      }
+    ],
+    "5.5 Restyle cards, eyebrows, buttons, tip boxes, tabs and hard-coded colours": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717715417
+      }
+    ],
+    "5.6 Add the 44 px touch-target rules to `index.css`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717716286
+      }
+    ],
+    "6.1 Create `landing/scroll.js` and `landing/SkipLink.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717717530
+      }
+    ],
+    "6.2 Create `landing/Hero.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717718102
+      }
+    ],
+    "6.3 Create `landing/copy.js` and `landing/DepthStory.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717719189
+      }
+    ],
+    "6.4 Write the copy test `frontend/tests/copy.test.mjs` (required)": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717720134
+      }
+    ],
+    "6.5 Create `landing/ExternalLink.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717720954
+      }
+    ],
+    "6.6 Create `landing/HowItWorks.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717722182
+      }
+    ],
+    "6.7 Create `landing/RuralBenefits.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717722825
+      }
+    ],
+    "6.8 Create `landing/ClosingCta.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717724031
+      }
+    ],
+    "6.9 Add the links to `fieldSummary/DataLimitations.jsx`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717725138
+      }
+    ],
+    "6.10 Reorder `App.jsx` and change the top-bar heading": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717726008
+      }
+    ],
+    "7.1 Create the pure helpers `weather/groupDays.js`, `weather/toasts.js` and `weather/dismissedStore.js`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717726937
+      },
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717759925
+      },
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717794520
+      }
+    ],
+    "7.3 Create `weather/useWeather.js`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717727960
+      }
+    ],
+    "7.4 Create `weather/ForecastCard.jsx` and render it in `FieldSummary`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717729446
+      }
+    ],
+    "7.5 Create `weather/AlertToasts.jsx` with the dismissed hook and placement": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717730626
+      }
+    ],
+    "7.6 Add the dismissed restore button to `ForecastCard`": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717731671
+      }
+    ],
+    "8.1 Run the production build": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717732907
+      }
+    ],
+    "9.1 Check the landing scroll, skip link and reduced motion": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717734157
+      }
+    ],
+    "9.2 Check both themes and the 375 px viewport": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717735223
+      }
+    ],
+    "9.3 Check the toasts: open, close, remember, restore": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717736953
+      }
+    ],
+    "9.4 Check network requests and the console": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717738205
+      }
+    ],
+    "9.5 Check the extension and NRCS links": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717739261
+      }
+    ],
+    "9.6 Check the hero image size": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717740805
+      }
+    ],
+    "10. Final checkpoint": [
+      {
+        "executionId": "3dd1bb3f-6dbc-4a13-989c-61350a3d1136",
+        "chatSessionId": "sess_c6d86ba4-ebcf-461f-af1b-a538f2a66db4",
+        "timestamp": 1794717742056
+      }
+    ]
+  }
+}

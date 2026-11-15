@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ViewState from "../farmData/ViewState.jsx";
+import ForecastCard from "../weather/ForecastCard.jsx";
 import { CalendarLegend } from "./CalendarStrip.jsx";
 import ClimateTrends from "./ClimateTrends.jsx";
 import DataLimitations from "./DataLimitations.jsx";
@@ -30,7 +31,7 @@ function loadChoices() {
  *
  * place: { lat, lon, label } of the selected location, or null
  */
-export default function FieldSummary({ place, sectionRef, onSoilModelData }) {
+export default function FieldSummary({ place, sectionRef, onSoilModelData, weather, dismissedCount, onRestoreAlerts }) {
   const [inputs, setInputs] = useState(loadChoices);
   const rotation = useRotation(place?.lat, place?.lon, inputs);
   const outlook = useOutlook(place?.lat, place?.lon, rotation.retry);
@@ -92,6 +93,9 @@ export default function FieldSummary({ place, sectionRef, onSoilModelData }) {
             with rules you can read. The crop list is written for Central Texas.
           </p>
         </header>
+
+        {/* The forecast does not wait for the rotation answer, which can take a minute. */}
+        <ForecastCard weather={weather} dismissedCount={dismissedCount} onRestore={onRestoreAlerts} />
 
         {rotation.status === "idle" && <ViewState kind="idle" message="Choose a location on the map to see rotation options." />}
         {waiting && (

@@ -32,15 +32,17 @@ def make_client() -> httpx.AsyncClient:
     return httpx.AsyncClient(timeout=httpx.Timeout(UPSTREAM_TIMEOUT), follow_redirects=True)
 
 
-async def get_json(client: httpx.AsyncClient, url: str, params: dict | None = None, timeout: float | None = None):
+async def get_json(client: httpx.AsyncClient, url: str, params: dict | None = None,
+                   timeout: float | None = None, headers: dict | None = None):
     """GET a URL and return parsed JSON. Raises on timeout, HTTP error, or bad JSON.
 
     timeout: only for offline scripts that call slow services (NDVI); page requests keep 10 s.
+    headers: extra request headers (the National Weather Service needs a User-Agent). Default None.
     """
     if timeout is None:
-        r = await asyncio.wait_for(client.get(url, params=params), UPSTREAM_TIMEOUT)
+        r = await asyncio.wait_for(client.get(url, params=params, headers=headers), UPSTREAM_TIMEOUT)
     else:
-        r = await asyncio.wait_for(client.get(url, params=params, timeout=timeout), timeout)
+        r = await asyncio.wait_for(client.get(url, params=params, headers=headers, timeout=timeout), timeout)
     r.raise_for_status()
     return r.json()
 

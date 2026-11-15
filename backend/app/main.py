@@ -14,6 +14,7 @@ from app.outlook_store import OutlookStore
 from app.rotation import crops as crop_table
 from app.rotation.site_facts import LIVESTOCK_VALUES, PRIORITIES, FarmInputs
 from app.rotation_data import gather_rotation
+from app.weather_data import gather_weather
 from app.services.base import make_client
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -234,3 +235,19 @@ def outlook_load(
     store.reserve(lat_f, lon_f)
     background.add_task(run_load)
     return JSONResponse(decision, status_code=202)
+
+
+@app.get("/api/weather")
+async def weather(
+    lat: str | None = Query(None, description="Latitude, e.g. 30.233589"),
+    lon: str | None = Query(None, description="Longitude, e.g. -97.496006"),
+    client=Depends(get_http_client),
+    cache: DiskCache = Depends(get_cache),
+):
+    """National Weather Service 7-day forecast, official alerts and farm alerts for one US location.
+
+    Same location checks as /api/farm-data (400 naming the bad value). After that the answer is
+    always 200: a failing part is marked unavailable with a plain reason.
+    """
+    lat_f, lon_f = _location(lat, lon)
+    return await gather_weather(client, lat_f, lon_f, cache)

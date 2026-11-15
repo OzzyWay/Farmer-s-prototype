@@ -1,0 +1,8 @@
+{
+ "properties": {
+  "forecast": "https://api.weather.gov/gridpoints/EWX/165,89/forecast",
+  "gridId": "EWX",
+  "gridX": 165,
+  "gridY": 89
+ }
+}

@@ -1,0 +1,14 @@
+{
+ "features": [
+  {"id": "https://api.weather.gov/alerts/urn-test-1",
+   "properties": {"id": "urn:oid:test.1", "event": "Severe Thunderstorm Warning", "severity": "Severe",
+     "headline": "Severe Thunderstorm Warning until 6:00PM CST",
+     "description": "Hail up to one inch and wind gusts to 60 mph.",
+     "instruction": "Move to an interior room on the lowest floor.",
+     "ends": "2026-11-15T18:00:00-06:00", "expires": "2026-11-15T17:45:00-06:00"}},
+  {"id": "https://api.weather.gov/alerts/urn-test-2",
+   "properties": {"id": "urn:oid:test.2", "event": "Wind Advisory", "severity": "Moderate",
+     "headline": "Wind Advisory until midnight", "description": "South winds 25 to 35 mph.",
+     "instruction": null, "ends": null, "expires": "2026-11-16T00:00:00-06:00"}}
+ ]
+}

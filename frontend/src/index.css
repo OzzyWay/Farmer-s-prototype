@@ -1,55 +1,107 @@
 /*
- * Field Shift styles: full-screen 3D map with frosted (translucent, blurred) panels on top.
+ * Field Shift styles: warm earth look (from the colleague's Farmers-Helpers design), a landing
+ * section, the full-screen 3D map with frosted panels, and the field summary below it.
  *
- * Colours are CSS variables so light and dark themes only swap values.
- * Contrast was checked against the WORST case behind a frosted surface
- * (pure black map under the light panel, pure white map under the dark panel):
- *   light: text 12.2:1, secondary 5.7:1, link #0058b0 5.0:1, error 4.7:1, accent ring 3.4:1, control border 3.7:1
- *   dark:  text 13.2:1, secondary 8.5:1, link #2997ff 4.8:1, error 6.3:1, accent ring 3.1:1, control border 4.2:1
- *   white text on the #0071e3 accent fill: 4.7:1
- * (Needed: 4.5:1 for normal text, 3:1 for large text, focus rings and control borders.)
- * The dark surface is more opaque (0.94) than the light one (0.86) so those numbers hold.
+ * Colours are CSS variables, so light and dark themes only swap values. The colleague's names
+ * (--bg, --card, --ink, --green ...) are the palette; the names the app already used (--surface,
+ * --text, --accent ...) are set from it, so existing components needed no rewrite.
+ *
+ * Contrast, measured with the WCAG formula on 2026-11-15 (needed: 4.5:1 text, 3:1 UI and graphics):
+ *   light  ink/card 15.7  ink/bg 14.0  muted/card 6.3  muted/bg 5.6  green/card 7.8  green/bg 6.9
+ *          soil (eyebrows)/card 6.8  warn/card 5.6  error/card 6.4  button text on green 7.8
+ *          control border/card 4.3  chart rain 4.4  chart temp 4.9  leaf (graphics only) 4.0
+ *   dark   ink/card 12.6  ink/bg 14.1  muted/card 6.1  muted/bg 6.9  green/card 6.8  green/bg 7.6
+ *          soil/card 6.5  warn/card 6.1  error/card 7.4  button text on green 7.4
+ *          control border/card 4.2  chart rain 7.0  chart temp 6.7  leaf 6.3
+ * Worst case behind a frosted panel (black map under the light panel at 0.92, white map under
+ * the dark panel at 0.94):
+ *   light  ink 13.1  muted 5.3  green 6.5  control border 3.6  error 5.4
+ *   dark   ink 10.6  muted 5.1  green 5.7  control border 3.5  error 6.2
+ * --muted is #625f55 (a little darker than the colleague's #6a675d) so it passes behind the panel.
+ * --sun and --line are decorative only: never used for text, meaningful icons or control edges.
  */
 
+/* Self-hosted fonts (frontend/public/fonts, SIL Open Font License; see FONTS-LICENSE.txt).
+   The files are variable fonts, so one file covers several weights. */
+@font-face { font-family: "Fraunces"; font-weight: 600; font-style: normal; font-display: swap; src: url("/fonts/fraunces-600.woff2") format("woff2"); }
+@font-face { font-family: "Fraunces"; font-weight: 700; font-style: normal; font-display: swap; src: url("/fonts/fraunces-700.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400; font-style: normal; font-display: swap; src: url("/fonts/inter-400.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 500; font-style: normal; font-display: swap; src: url("/fonts/inter-500.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-style: normal; font-display: swap; src: url("/fonts/inter-600.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 700; font-style: normal; font-display: swap; src: url("/fonts/inter-700.woff2") format("woff2"); }
+
 :root {
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --accent: #0071e3;
-  --on-accent: #ffffff;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --radius: 14px;
   --radius-pill: 980px;
-  --shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+  --shadow: 0 8px 30px rgba(34, 35, 31, 0.16);
   --panel-w: 380px;
   --gap: 12px;
 
-  /* light theme */
-  --surface: rgba(255, 255, 255, 0.86);
-  --surface-solid: #f5f5f7;
-  --surface-sunken: rgba(0, 0, 0, 0.05);
-  --text: #1d1d1f;
-  --text-secondary: #515154;
-  --accent-text: #0058b0;
-  --control-border: rgba(0, 0, 0, 0.5);
-  --divider: rgba(0, 0, 0, 0.08);
-  --error: #b3261e;
-  --chart-rain: #5ac8fa;
-  --chart-temp: #d9480f;
+  /* colleague's palette (light) */
+  --bg: #f3f1e9;
+  --card: #fffefa;
+  --ink: #22231f;
+  --muted: #625f55;
+  --line: #d9d4c8;
+  --green: #385943;
+  --green-soft: #e1e9df;
+  --on-green: #fffefa;
+  --leaf: #688752;
+  --soil: #76533a;
+  --soil-soft: #eee3d7;
+  --sun: #b89556;
+  --warn: #93583c;
+  --warn-soft: #f0e2d8;
+  --info: #536f5d;
+  --info-soft: #e3e9e1;
+
+  /* the names the app already used, now set from the palette */
+  --surface: rgba(255, 254, 250, 0.92);      /* frosted panels over the map */
+  --surface-solid: var(--card);
+  --surface-sunken: rgba(34, 35, 31, 0.05);
+  --text: var(--ink);
+  --text-secondary: var(--muted);
+  --accent: var(--green);
+  --accent-hover: #2c4835;
+  --on-accent: var(--on-green);
+  --accent-text: var(--green);
+  --control-border: #7d7a6c;
+  --divider: var(--line);
+  --error: #a63a2a;
+  --chart-rain: #4a7f98;
+  --chart-temp: #b5532a;
 
   color-scheme: light dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --surface: rgba(28, 28, 30, 0.94);
-    --surface-solid: #1c1c1e;
-    --surface-sunken: rgba(255, 255, 255, 0.07);
-    --text: #f5f5f7;
-    --text-secondary: #c7c7cc;
-    --accent-text: #2997ff;
-    --control-border: rgba(255, 255, 255, 0.45);
-    --divider: rgba(255, 255, 255, 0.12);
-    --error: #ff8a80;
-    --chart-rain: #64d2ff;
-    --chart-temp: #ff9f0a;
+    --bg: #1a1b17;
+    --card: #24251f;
+    --ink: #ece8dc;
+    --muted: #a8a393;
+    --line: #3d3c33;
+    --green: #8fb59a;
+    --green-soft: #26332a;
+    --on-green: #14201a;
+    --leaf: #8fb06f;
+    --soil: #c9a07c;
+    --soil-soft: #33281f;
+    --sun: #d2b06a;
+    --warn: #e08f6c;
+    --warn-soft: #3a2a22;
+    --info: #8fb59a;
+    --info-soft: #263028;
+
+    --surface: rgba(36, 37, 31, 0.94);
+    --surface-sunken: rgba(236, 232, 220, 0.07);
+    --accent-hover: #a3c4ac;
+    --control-border: #8a8676;
+    --error: #f0a08a;
+    --chart-rain: #7fb6cc;
+    --chart-temp: #e49a6b;
     --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   }
 }
@@ -148,7 +200,7 @@ a { color: var(--accent-text); }
   border-color: var(--accent);
   color: var(--on-accent);
 }
-.btn-primary:hover { background: #0077ed; }
+.btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 .btn-small { min-height: 28px; padding: 4px 12px; font-size: 13px; }
 
 .search { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; flex: 1 1 320px; min-width: 0; }
@@ -412,7 +464,9 @@ a { color: var(--accent-text); }
 
 /* ---------- field summary (below the map) ---------- */
 
-.summary { background: var(--surface-solid); padding: 32px 16px 48px; }
+/* position + overflow-x clip keep the screen-reader-only data tables (which ignore the 1 px
+   width trick) from widening the page on phones. clip, unlike hidden, keeps sticky elements working. */
+.summary { position: relative; overflow-x: clip; background: var(--bg); padding: 32px 16px 48px; }
 .summary:focus { outline: none; }
 .summary-inner { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
 .summary-title { margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.02em; }
@@ -435,7 +489,7 @@ a { color: var(--accent-text); }
 .card-title { margin: 0 0 6px; font-size: 18px; font-weight: 600; }
 .note-p { margin: 0 0 8px; }
 .source-ok { margin: 0; font-size: 14px; color: var(--text-secondary); }
-.warn-note, .error-note { border-left: 4px solid #b25e00; color: var(--text); }
+.warn-note, .error-note { border-left: 4px solid var(--warn); background: var(--warn-soft); color: var(--text); }
 .error-note { border-left-color: var(--error); }
 .warn-note ul { margin: 6px 0 0; padding-left: 20px; }
 
@@ -597,8 +651,8 @@ a { color: var(--accent-text); }
 .risks .local-review {
   list-style: none; margin-left: -20px;
   padding: 6px 10px; border-radius: 8px;
-  border-left: 4px solid #b25e00;
-  background: rgba(255, 159, 10, 0.12);
+  border-left: 4px solid var(--warn);
+  background: var(--warn-soft);
 }
 .risks .local-review::before { content: "⚠ "; }
 .ruled-out { background: var(--surface-sunken); }
@@ -681,7 +735,7 @@ a { color: var(--accent-text); }
 .soil-legend, .soil-flags { list-style: none; margin: 0 0 10px; padding: 0; font-size: 14px; }
 .soil-legend li { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
 .soil-swatch { display: inline-block; width: 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.3); flex-shrink: 0; }
-.soil-flag { margin: 6px 0; padding: 6px 10px; border-radius: 8px; border-left: 4px solid #b25e00; background: rgba(255, 159, 10, 0.12); }
+.soil-flag { margin: 6px 0; padding: 6px 10px; border-radius: 8px; border-left: 4px solid var(--warn); background: var(--warn-soft); }
 .soil-facts { margin-bottom: 8px; }
 .soil-empty { padding: 8px 0; font-size: 14px; }
 
@@ -716,4 +770,269 @@ a { color: var(--accent-text); }
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ======================================================================
+   Warm earth look (from the colleague's Farmers-Helpers style.css)
+   ====================================================================== */
+
+h1, h2, h3, .summary-title, .summary-section, .card-title, .finding-title, .trend-title,
+.panel-title, .view-heading, .stat-value, .overall-num, .topbar-title {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+body { background: var(--bg); line-height: 1.5; }
+
+/* Cards: solid, 1px line border, 14px corners. */
+.summary-card, .strategy, .finding, .trend, .stat {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.strategy { box-shadow: none; }
+.strategy.best { border: 2px solid var(--green); }
+
+/* Eyebrow labels: uppercase, letter-spaced, soil colour. */
+.section-heading, .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--soil);
+}
+
+/* Primary buttons: green pills. */
+.btn-primary { background: var(--green); border-color: var(--green); color: var(--on-green); font-weight: 600; }
+
+/* Tip boxes: tinted with a coloured left border (good / warn / info). */
+.note { background: var(--info-soft); border-left: 4px solid var(--info); border-radius: 10px; color: var(--text); }
+.note.tip-good { background: var(--green-soft); border-left-color: var(--leaf); }
+
+/* Tabs: soft track, selected tab raised on the card colour. */
+.segmented { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 4px; }
+.segmented button { border-radius: 8px; color: var(--muted); font-weight: 600; }
+.segmented button[aria-selected="true"] {
+  background: var(--card); color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.segmented button:focus-visible { outline-offset: -2px; }
+.badge.accent { background: var(--green); color: var(--on-green); }
+.chip-clear { background: var(--green); color: var(--on-green); }
+.score-fill { background: linear-gradient(90deg, var(--soil), var(--leaf)); }
+.toggle[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: var(--on-green); }
+
+/* ======================================================================
+   Touch targets: 44 px for new controls at every width; existing
+   controls grow on phones only, so the desktop map panel stays compact.
+   ====================================================================== */
+.landing-btn, .toast-close, .toast-more, .forecast-btn, .skip-link { min-height: 44px; min-width: 44px; }
+.help-links a, .closing-cta .ext-link, .forecast-card .nws-link {
+  display: inline-flex; align-items: center; min-height: 44px;
+}
+@media (max-width: 767px) {
+  .btn, .btn-small, .segmented button, .select, .term-btn { min-height: 44px; }
+  .btn, .btn-small { min-width: 44px; }
+}
+
+/* ======================================================================
+   Skip link
+   ====================================================================== */
+.skip-link {
+  position: absolute; left: 12px; top: -80px; z-index: 50;
+  display: inline-flex; align-items: center; padding: 10px 16px;
+  background: var(--green); color: var(--on-green); border-radius: 10px;
+  font-weight: 600; text-decoration: none;
+}
+.skip-link:focus { top: 12px; }
+
+/* ======================================================================
+   Landing
+   ====================================================================== */
+.landing-section { padding: 64px 16px; }
+.landing-inner { max-width: 1180px; margin: 0 auto; }
+.landing-section h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 6px 0 12px; line-height: 1.15; }
+.landing-lede { max-width: 62ch; font-size: 1.05rem; color: var(--muted); margin: 0 0 18px; }
+.landing-btn { padding: 10px 20px; font-size: 15px; font-weight: 600; }
+.btn-light { background: rgba(255, 254, 250, 0.14); border-color: rgba(255, 254, 250, 0.8); color: #fffefa; }
+.btn-light:hover { background: rgba(255, 254, 250, 0.26); }
+
+/* Hero: photo over a plain green fallback, with a dark overlay so white text stays readable. */
+.hero {
+  position: relative; min-height: 88vh; min-height: 88dvh;
+  display: flex; align-items: flex-end;
+  padding: 0 16px 56px;
+  color: #fffefa;
+  background-color: #385943;
+  background-image:
+    linear-gradient(180deg, rgba(20, 22, 18, 0.25) 0%, rgba(20, 22, 18, 0.55) 55%, rgba(20, 22, 18, 0.82) 100%),
+    url("/images/hero-field.jpg");
+  background-size: cover; background-position: center 60%;
+}
+.hero-inner { max-width: 1180px; width: 100%; margin: 0 auto; }
+.hero-kicker {
+  display: inline-flex; align-items: center; gap: 10px; margin: 0 0 14px;
+  text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem; font-weight: 700;
+}
+.hero-kicker::before { content: ""; width: 28px; height: 2px; background: #e9d8a6; }
+.hero h1 { font-size: clamp(2.3rem, 7vw, 4.6rem); line-height: 1.02; max-width: 14ch; margin: 0 0 14px; font-weight: 700; }
+.hero-lede { max-width: 54ch; font-size: clamp(1rem, 2.2vw, 1.2rem); margin: 0 0 24px; color: #f3efe2; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.hero-actions .btn-primary { background: #fffefa; border-color: #fffefa; color: #22231f; }
+.hero-actions .btn-primary:hover { background: #ece8dc; }
+.hero-credit { position: absolute; right: 14px; bottom: 10px; margin: 0; font-size: 11px; color: #e7e1d1; }
+
+/* Depth story: sticky illustrated scene beside five steps. */
+.depth-story { background: var(--bg); }
+.depth-grid { display: grid; grid-template-columns: minmax(260px, 420px) 1fr; gap: 40px; align-items: start; }
+.depth-scene { position: sticky; top: 24px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--card); }
+.depth-scene svg { display: block; width: 100%; height: auto; }
+.depth-band { transition: opacity 0.2s; opacity: 0.55; }
+.depth-band[data-active="true"] { opacity: 1; }
+.depth-band-label { font: 700 11px var(--font); letter-spacing: 0.12em; fill: #fffefa; }
+.depth-roots path { fill: none; stroke: #2a1d14; stroke-linecap: round; opacity: 0.55; }
+.depth-scene[data-active-step] .depth-roots path { opacity: 0.75; }
+.depth-steps { display: flex; flex-direction: column; gap: 28vh; padding: 10vh 0 20vh; }
+.depth-step {
+  padding: 22px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--card);
+  opacity: 0.6; transition: opacity 0.2s, border-color 0.2s;
+}
+.depth-step[data-active="true"] { opacity: 1; border-color: var(--green); box-shadow: var(--shadow); }
+.depth-step h3 { font-size: 1.35rem; margin: 6px 0 8px; }
+.depth-step p { margin: 0 0 8px; }
+.depth-sources { font-size: 0.85rem; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) {
+  .depth-roots path { stroke-dasharray: 600; stroke-dashoffset: 0; transition: stroke-dashoffset 0.6s, opacity 0.3s; }
+}
+
+/* How it works and Built for rural farms: card grids. */
+.how-it-works { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.step-grid, .benefit-grid {
+  list-style: none; margin: 18px 0 0; padding: 0;
+  display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+.step-card, .benefit-card {
+  padding: 20px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--bg);
+}
+.step-card .step-num { font: 700 0.8rem var(--font); color: var(--soil); letter-spacing: 0.1em; }
+.step-card h3, .benefit-card h3 { font-size: 1.2rem; margin: 6px 0 6px; }
+.step-card p, .benefit-card p { margin: 0; color: var(--text); }
+.rural-benefits { background: var(--green-soft); }
+.benefit-card { background: var(--card); border-left: 4px solid var(--leaf); }
+
+/* Closing call to action. */
+.closing-cta { background: var(--green); color: var(--on-green); text-align: left; }
+.closing-cta h2 { color: var(--on-green); }
+.closing-cta .landing-lede { color: var(--on-green); opacity: 0.92; }
+.closing-cta .btn-primary { background: var(--on-green); border-color: var(--on-green); color: var(--green); }
+.closing-help { margin-top: 22px; }
+.closing-help p { margin: 0 0 4px; font-weight: 600; }
+.closing-cta .ext-link { color: var(--on-green); }
+.help-links { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 22px; }
+.ext-note { font-size: 0.82em; opacity: 0.85; margin-left: 4px; }
+
+@media (max-width: 767px) {
+  .landing-section { padding: 44px 14px; }
+  .hero { min-height: 92vh; min-height: 92dvh; padding-bottom: 48px; }
+  .depth-grid { grid-template-columns: 1fr; gap: 16px; }
+  .depth-scene { top: 8px; max-height: 38vh; z-index: 1; }
+  .depth-scene svg { max-height: 38vh; }
+  .depth-steps { gap: 16vh; padding: 4vh 0 10vh; }
+}
+
+/* ======================================================================
+   Weather: Next 7 days card and alert toasts
+   ====================================================================== */
+.forecast-days {
+  list-style: none; margin: 10px 0; padding: 0;
+  /* auto-fit (not auto-fill) stretches the day cards to use the whole row, so no empty space
+     is left on the right on wide or zoomed-out screens. */
+  display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.forecast-day { padding: 12px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); }
+.forecast-day h4 { margin: 0 0 4px; font-size: 0.95rem; }
+.forecast-temps { font: 700 1.25rem var(--font-display); }
+.forecast-temps .low { color: var(--muted); font-weight: 600; margin-left: 6px; }
+.forecast-meta { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+.forecast-short { font-size: 0.85rem; margin-top: 4px; }
+.forecast-foot { display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: center; font-size: 0.85rem; color: var(--muted); }
+
+.alerts {
+  position: fixed; z-index: 30; top: var(--gap); right: var(--gap);
+  width: min(380px, calc(100vw - 2 * var(--gap)));
+  max-height: 50vh; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+  pointer-events: none;
+}
+.alerts.map-visible {
+  top: calc(var(--topbar-h, 0px) + 2 * var(--gap));
+  right: calc(var(--panel-w) + 2 * var(--gap));
+}
+.toast {
+  pointer-events: auto; position: relative;
+  background: var(--card); color: var(--ink);
+  border: 1px solid var(--line); border-left: 6px solid var(--info);
+  border-radius: 12px; padding: 12px 52px 12px 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  font-size: 0.9rem;
+}
+.toast.level-danger { border-left-color: var(--error); }
+.toast.level-warn { border-left-color: var(--warn); }
+.toast-level { font: 700 0.7rem var(--font); letter-spacing: 0.1em; text-transform: uppercase; color: var(--soil); }
+.toast h4 { margin: 2px 0 4px; font: 700 1rem var(--font-display); }
+.toast p { margin: 0 0 4px; }
+.toast-source { font-size: 0.75rem; color: var(--muted); }
+.toast-close {
+  position: absolute; top: 4px; right: 4px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 10px; background: transparent; color: var(--ink);
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+.toast-close:hover { background: var(--surface-sunken); }
+.toast-more { border: 0; background: transparent; color: var(--accent-text); font-weight: 600; padding: 0; cursor: pointer; }
+.toast-detail { white-space: pre-line; font-size: 0.82rem; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) {
+  .toast { animation: toast-in 0.3s ease both; }
+}
+@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 767px) {
+  .alerts, .alerts.map-visible { right: var(--gap); left: var(--gap); width: auto; top: var(--gap); max-height: 40vh; }
+  .alerts.map-visible { top: calc(var(--topbar-h, 0px) + 2 * var(--gap)); }
+  .forecast-days { grid-template-columns: 1fr; }
+}
+
+/* ======================================================================
+   Wide screens and zoomed-out browsers
+   Zooming out makes the page wider in CSS pixels. Let the content grow a little with it, and
+   keep the scroll story compact: capped gaps between steps, and the sticky soil drawing held
+   in the middle of the screen beside the step being read, so no large empty bands appear.
+   ====================================================================== */
+.landing-inner, .hero-inner, .summary-inner { max-width: min(1600px, 90vw); }
+/* Left column is exactly as wide as the drawing, so its border hugs the drawing.
+   Right column takes all the remaining width, so the cards line up with the right edge. */
+.depth-grid { grid-template-columns: auto minmax(0, 1fr); gap: clamp(24px, 3vw, 64px); }
+/* The drawing grows with the screen but never gets taller than about 72% of it,
+   and stays centred vertically while the steps scroll past. */
+.depth-scene { top: max(16px, calc(50vh - min(36vh, 430px))); }
+.depth-scene svg { width: auto; max-width: 100%; height: min(72vh, 860px); }
+.depth-steps { gap: clamp(32px, 9vh, 110px); padding: clamp(24px, 8vh, 96px) 0 clamp(48px, 30vh, 300px); }
+.depth-step { max-width: none; }
+.depth-step p { max-width: 75ch; } /* keep lines easy to read inside wide cards */
+/* Very wide (or zoomed-out) screens: slightly bigger card text so it matches the bigger drawing. */
+@media (min-width: 768px) and (max-width: 1100px) {
+  .depth-scene { top: max(16px, calc(50vh - min(30vh, 240px))); }
+  .depth-scene svg { height: min(60vh, 480px); }
+}
+@media (min-width: 1800px) {
+  .depth-step { padding: 30px 34px; }
+  .depth-step h3 { font-size: 1.7rem; }
+  .depth-step p { font-size: 1.12rem; }
+  .depth-step .small-print, .depth-sources { font-size: 0.95rem; }
+}
+@media (max-width: 767px) {
+  .depth-grid { grid-template-columns: 1fr; }
+  /* Box shrinks to the drawing so its border hugs it, centred above the steps. */
+  .depth-scene { top: 8px; justify-self: center; max-height: none; }
+  .depth-scene svg { width: auto; height: 38vh; max-width: 100%; }
+  .depth-steps { gap: 16vh; padding: 4vh 0 10vh; }
 }
