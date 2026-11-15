@@ -48,6 +48,7 @@ def test_catalog_and_tile_reproject_geotiff_and_preserve_nodata(tmp_path, monkey
             assert raster["variables"][0]["min"] == 256
             assert raster["variables"][0]["max"] == 1023
             assert raster["bounds"][0] < raster["bounds"][2]
+            assert raster["maxzoom"] == 11
 
             tile_response = client.get(
                 f"/api/rasters/{raster['id']}/tiles/8/128/128.png",

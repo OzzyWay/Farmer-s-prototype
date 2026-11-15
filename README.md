@@ -115,6 +115,8 @@ other GeoTIFFs are read by Rasterio/GDAL; the selected file is downloaded in ful
 before tile rendering, so a COG does not avoid the initial file transfer. Local
 GeoTIFFs under `examples/` (or paths in
 `RASTER_DATA_DIRS`) remain available for development and tests.
+Tile requests are limited to each raster's geographic bounds and native
+resolution to avoid rendering empty or over-detailed tiles.
 
 SMAP L4 SPL4SMGP files can omit GeoTIFF georeferencing tags. When their embedded
 product ID, grid dimensions, and global extent match, the backend restores the

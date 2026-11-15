@@ -244,8 +244,12 @@ export default function RasterOverlayPanel({ map }) {
   useEffect(() => {
     if (!map || !catalog.length) return undefined;
     const render = () => {
-      const desiredSources = new Set(overlays.map((overlay) => `raster-source-${overlay.uid}`));
-      const desiredLayers = new Set(overlays.map((overlay) => `raster-layer-${overlay.uid}`));
+      const desiredSources = new Set(overlays.map((overlay) =>
+        `raster-source-${overlay.uid}-${overlay.rasterId}`
+      ));
+      const desiredLayers = new Set(overlays.map((overlay) =>
+        `raster-layer-${overlay.uid}-${overlay.rasterId}`
+      ));
       for (const layer of map.getStyle().layers || []) {
         if (layer.id.startsWith("raster-layer-") && !desiredLayers.has(layer.id)) map.removeLayer(layer.id);
       }
@@ -253,8 +257,8 @@ export default function RasterOverlayPanel({ map }) {
         if (sourceId.startsWith("raster-source-") && !desiredSources.has(sourceId)) map.removeSource(sourceId);
       }
       for (const overlay of overlays) {
-        const sourceId = `raster-source-${overlay.uid}`;
-        const layerId = `raster-layer-${overlay.uid}`;
+        const sourceId = `raster-source-${overlay.uid}-${overlay.rasterId}`;
+        const layerId = `raster-layer-${overlay.uid}-${overlay.rasterId}`;
         const raster = overlay.asset;
         if (!raster || raster.id !== overlay.rasterId || !raster.bounds || overlay.loading) {
           if (map.getLayer(layerId)) map.setLayoutProperty(layerId, "visibility", "none");
@@ -266,8 +270,9 @@ export default function RasterOverlayPanel({ map }) {
             type: "raster",
             tiles: [tileUrl(tileOverlay)],
             tileSize: 256,
+            bounds: raster.bounds,
             minzoom: 0,
-            maxzoom: 22,
+            maxzoom: raster.maxzoom ?? 22,
           });
           map.addLayer({
             id: layerId,

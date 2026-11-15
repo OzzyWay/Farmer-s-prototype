@@ -261,6 +261,27 @@ def _spatial_reference(dataset, name: str):
     )
 
 
+def _native_maxzoom(dataset, source_crs, source_transform) -> int:
+    center = source_transform @ (dataset.width / 2, dataset.height / 2)
+    column_neighbor = source_transform @ (dataset.width / 2 + 1, dataset.height / 2)
+    row_neighbor = source_transform @ (dataset.width / 2, dataset.height / 2 + 1)
+    xs, ys = transform(
+        source_crs,
+        "EPSG:3857",
+        [center[0], column_neighbor[0], row_neighbor[0]],
+        [center[1], column_neighbor[1], row_neighbor[1]],
+    )
+    pixel_sizes = (
+        math.hypot(xs[1] - xs[0], ys[1] - ys[0]),
+        math.hypot(xs[2] - xs[0], ys[2] - ys[0]),
+    )
+    pixel_size = max(pixel_sizes)
+    if not math.isfinite(pixel_size) or pixel_size <= 0:
+        raise ValueError("Could not determine raster resolution in Web Mercator")
+    world_pixel_size = 2 * WEB_MERCATOR_LIMIT / 256
+    return max(0, min(22, math.floor(math.log2(world_pixel_size / pixel_size))))
+
+
 def _asset_metadata(
     path: str,
     identity: str,
@@ -280,6 +301,7 @@ def _asset_metadata(
             *array_bounds(source.height, source.width, source_transform),
             densify_pts=21,
         )
+        maxzoom = _native_maxzoom(source, source_crs, source_transform)
         bands = source.count
         raster_tags = source.tags()
     variables = [_cached_stats(path, band, modified) for band in range(1, bands + 1)]
@@ -321,6 +343,7 @@ def _asset_metadata(
         "name": name,
         "datetime": when,
         "bounds": [bounds[0], bounds[1], bounds[2], bounds[3]],
+        "maxzoom": maxzoom,
         "variables": variables,
         "path": path,
         "identity": identity,
