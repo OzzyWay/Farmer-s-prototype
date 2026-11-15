@@ -281,7 +281,7 @@ def test_catalog_reports_missing_hugging_face_token(tmp_path, monkeypatch):
     service = RasterOverlayService()
     assert service.catalog() == []
     assert service.warnings == [
-        "HF_TOKEN is not configured; Hugging Face raster files are unavailable."
+        "Hugging Face map layers are unavailable because the required access token is not set."
     ]
 
 
@@ -309,5 +309,5 @@ def test_hugging_face_authentication_failure_is_reported_without_exposing_token(
 
     service = RasterOverlayService()
     assert service.catalog() == []
-    assert "authentication failed" in service.warnings[0].lower()
+    assert "access was denied" in service.warnings[0].lower()
     assert "test-token" not in service.warnings[0]

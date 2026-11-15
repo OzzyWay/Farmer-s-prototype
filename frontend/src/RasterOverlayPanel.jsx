@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const RAMPS = ["viridis", "magma", "blue-red"];
+const RAMPS = [
+  ["viridis", "Purple, blue, green and yellow"],
+  ["magma", "Black, purple, orange and yellow"],
+  ["blue-red", "Blue to red"],
+];
 
 function tileUrl(overlay) {
   return `/api/rasters/${overlay.rasterId}/tiles/{z}/{x}/{y}.png?band=${overlay.band}&ramp=${overlay.ramp}`;
@@ -14,7 +18,7 @@ function Legend({ overlay, raster, variable }) {
   return (
     <div className="raster-legend">
       <strong>{raster.dataset}: {variable.name || raster.title || raster.name}</strong>
-      <div className="raster-legend-units">{variable.units || "Units not provided"}</div>
+      <div className="raster-legend-units">{variable.units || "Units not given"}</div>
       {categories?.length ? (
         <div className="raster-categories">
           {categories.slice(0, 12).map((category) => (
@@ -27,19 +31,19 @@ function Legend({ overlay, raster, variable }) {
         <>
           <div className={`raster-gradient raster-gradient-${overlay.ramp}`} />
           <div className="raster-legend-values">
-            <span>Min {variable.min == null ? "—" : Number(variable.min.toPrecision(4))}</span>
-            <span>Max {variable.max == null ? "—" : Number(variable.max.toPrecision(4))}</span>
+            <span>Lowest {variable.min == null ? "—" : Number(variable.min.toPrecision(4))}</span>
+            <span>Highest {variable.max == null ? "—" : Number(variable.max.toPrecision(4))}</span>
           </div>
         </>
       )}
       {catalogEntry?.minimum_valid_value !== "" && catalogEntry?.minimum_valid_value != null &&
         catalogEntry?.maximum_valid_value !== "" && catalogEntry?.maximum_valid_value != null && (
         <div className="raster-legend-range">
-          Source valid range {catalogEntry.minimum_valid_value}–{catalogEntry.maximum_valid_value}
+          Values allowed by the source: {catalogEntry.minimum_valid_value}–{catalogEntry.maximum_valid_value}
           {catalogEntry.range_basis ? ` · ${catalogEntry.range_basis}` : ""}
         </div>
       )}
-      <div className="raster-nodata"><i /> NoData / unavailable</div>
+      <div className="raster-nodata"><i /> No map information available</div>
     </div>
   );
 }
@@ -65,7 +69,7 @@ export default function RasterOverlayPanel({ map }) {
     let cancelled = false;
     fetch("/api/rasters")
       .then((response) => {
-        if (!response.ok) throw new Error(`Raster catalog returned HTTP ${response.status}`);
+        if (!response.ok) throw new Error(`Map layer list could not be loaded (HTTP ${response.status})`);
         return response.json();
       })
       .then((data) => {
@@ -76,7 +80,7 @@ export default function RasterOverlayPanel({ map }) {
         }
       })
       .catch((cause) => {
-        if (!cancelled) setError(cause.message || "Could not load raster catalog");
+        if (!cancelled) setError(cause.message || "Could not load map layers");
       });
     return () => { cancelled = true; };
   }, []);
@@ -163,7 +167,7 @@ export default function RasterOverlayPanel({ map }) {
         .then(async (response) => {
           if (!response.ok) {
             const body = await response.json().catch(() => ({}));
-            throw new Error(body.detail || `Raster retrieval returned HTTP ${response.status}`);
+            throw new Error(body.detail || `Map layer details could not be loaded (HTTP ${response.status})`);
           }
           return response.json();
         })
@@ -176,7 +180,7 @@ export default function RasterOverlayPanel({ map }) {
         .catch((cause) => {
           if (detailRequests.current.get(overlay.uid) === overlay.rasterId) {
             updateOverlay(overlay.uid, { loading: false, detailsError: cause.message });
-            setError(cause.message || "Could not retrieve the selected raster");
+            setError(cause.message || "Could not load the selected map layer");
           }
         });
     });
@@ -328,10 +332,10 @@ export default function RasterOverlayPanel({ map }) {
             body: JSON.stringify(region),
           });
           const payload = await response.json();
-          if (!response.ok) throw new Error(payload.detail || `Regional summary returned HTTP ${response.status}`);
+          if (!response.ok) throw new Error(payload.detail || `Map-area summary could not be created (HTTP ${response.status})`);
           return [overlay.uid, payload];
         } catch (cause) {
-          return [overlay.uid, { error: cause.message || "Regional summary failed" }];
+          return [overlay.uid, { error: cause.message || "Could not summarize this map area" }];
         }
       }));
       if (!cancelled) {
@@ -381,14 +385,14 @@ export default function RasterOverlayPanel({ map }) {
   }
 
   return (
-    <section className={`raster-panel frosted${open ? " raster-panel-open" : ""}`} aria-label="Raster overlays">
+    <section className={`raster-panel frosted${open ? " raster-panel-open" : ""}`} aria-label="Map layers">
       <button
         className="raster-panel-toggle"
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
-        Raster overlays <span>{open ? "−" : "+"}</span>
+        Map layers <span>{open ? "−" : "+"}</span>
       </button>
       {open && (
         <div className="raster-panel-content">
@@ -397,13 +401,13 @@ export default function RasterOverlayPanel({ map }) {
             <p className="raster-warning" role="status" key={warning}>{warning}</p>
           ))}
           <div className="raster-add-row">
-            <label className="visually-hidden" htmlFor="raster-search">Search raster datasets</label>
-            <input id="raster-search" type="search" placeholder="Search raster layers" value={search}
+            <label className="visually-hidden" htmlFor="raster-search">Search map layers</label>
+            <input id="raster-search" type="search" placeholder="Search map layers" value={search}
               onChange={(event) => setSearch(event.target.value)} />
-            <label className="visually-hidden" htmlFor="raster-add-select">Available raster datasets</label>
+            <label className="visually-hidden" htmlFor="raster-add-select">Available map layers</label>
             <select id="raster-add-select" value={visibleSelectedId} onChange={(event) => setSelectedId(event.target.value)}>
-              {!catalog.length && <option value="">No GeoTIFFs found</option>}
-              {!!catalog.length && !filteredCatalog.length && <option value="">No matching raster layers</option>}
+              {!catalog.length && <option value="">No map layers found</option>}
+              {!!catalog.length && !filteredCatalog.length && <option value="">No matching map layers</option>}
               {filteredCatalog.map((raster) => (
                 <option key={raster.id} value={raster.id}>
                   {raster.dataset} · {raster.catalog_matched ? raster.title : raster.name}
@@ -441,9 +445,9 @@ export default function RasterOverlayPanel({ map }) {
                     ×
                   </button>
                 </div>
-                {overlay.loading && <p className="raster-help" role="status">Retrieving selected raster…</p>}
+                {overlay.loading && <p className="raster-help" role="status">Loading selected map layer…</p>}
                 {details.variables?.length > 1 && (
-                  <label className="raster-field">Variable
+                  <label className="raster-field">Measurement
                     <select value={overlay.band} onChange={(event) => updateOverlay(overlay.uid, { band: Number(event.target.value) })}>
                       {details.variables.map((item) => (
                         <option key={item.index} value={item.index}>{item.name || `Band ${item.index}`}</option>
@@ -454,7 +458,7 @@ export default function RasterOverlayPanel({ map }) {
                 {dated.length > 1 && (
                   <div className="raster-time-controls">
                     <div className="raster-time-heading">
-                      <strong>{overlay.noObservation ? `No observation on ${overlay.date}` : overlay.date}</strong>
+                      <strong>{overlay.noObservation ? `No information for ${overlay.date}` : overlay.date}</strong>
                       {!syncDates && (
                         <div>
                           <button type="button" aria-label="Previous date" onClick={() => moveDate(overlay, -1)}>‹</button>
@@ -469,7 +473,7 @@ export default function RasterOverlayPanel({ map }) {
                         <input type="range" min="0" max={dated.length - 1} value={dateIndex}
                           aria-label={`${raster.name} available dates`}
                           onChange={(event) => setOverlayDate(overlay, dated[Number(event.target.value)].datetime)} />
-                        <label className="raster-date-picker">Select date
+                        <label className="raster-date-picker">Choose a date
                           {dated.every((record) => record.datetime.length === 10) ? (
                             <input type="date" min={dated[0].datetime} max={dated[dated.length - 1].datetime}
                               value={overlay.date?.length === 10 ? overlay.date : ""}
@@ -503,18 +507,18 @@ export default function RasterOverlayPanel({ map }) {
                   </div>
                 )}
                 <label className="raster-style-row">
-                  <span>Opacity</span>
+                  <span>Transparency</span>
                   <input type="range" min="0" max="1" step="0.05" value={overlay.opacity}
                     onChange={(event) => updateOverlay(overlay.uid, { opacity: Number(event.target.value) })} />
                   <span>{Math.round(overlay.opacity * 100)}%</span>
                 </label>
-                <label className="raster-style-row">Color ramp
+                <label className="raster-style-row">Map colors
                   <select value={overlay.ramp} onChange={(event) => updateOverlay(overlay.uid, { ramp: event.target.value })}>
-                    {RAMPS.map((ramp) => <option key={ramp} value={ramp}>{ramp}</option>)}
+                    {RAMPS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
                   </select>
                 </label>
                 {variable && !variable.catalog_entry && (
-                  <p className="raster-warning">Catalog entry unavailable; showing available raster metadata only.</p>
+                  <p className="raster-warning">A full description is not available; showing the details we have.</p>
                 )}
                 {details.description && <p className="raster-description">{details.description}</p>}
                 <Legend overlay={overlay} raster={details} variable={variable} />
@@ -522,38 +526,42 @@ export default function RasterOverlayPanel({ map }) {
             );
           })}
           <section className="raster-summary">
-            <h3>Regional summary</h3>
+            <h3>Summary for this map area</h3>
             <button type="button" className="btn raster-summary-button" onClick={summarizeVisibleArea}
               disabled={!map || !overlays.some((overlay) => overlay.visible && !overlay.noObservation)}>
-              Summarize visible map area
+              Summarize this map area
             </button>
-            {summaryLoading && <p className="raster-help" role="status">Calculating regional statistics…</p>}
+            {summaryLoading && <p className="raster-help" role="status">Summarizing map information…</p>}
             {Object.entries(summaries).map(([uid, summary]) => {
               const overlay = overlays.find((item) => item.uid === uid);
               if (!overlay || !overlay.visible) return null;
               return (
                 <article className="raster-summary-item" key={uid}>
-                  <strong>{summary.name || overlay.asset?.title || "Raster layer"}{summary.datetime ? ` · ${summary.datetime}` : ""}</strong>
+                  <strong>{summary.name || overlay.asset?.title || "Map layer"}{summary.datetime ? ` · ${summary.datetime}` : ""}</strong>
                   {summary.error && <p className="raster-error">{summary.error}</p>}
                   {!summary.error && (
                     <>
                       <p className="raster-summary-note">
-                        {summary.source_type} · raster-derived values, not ground-truth field measurements.
+                        {summary.source_type} · Values are read from the map, not measured in your field.
+                      </p>
+                      <p className="raster-summary-note">
+                        The middle value is the halfway point. Variation shows how spread out the values are.
                       </p>
                       {summary.variables?.map((item) => (
                         <div key={item.index} className="raster-summary-variable">
                           <b>{item.name || `Band ${item.index}`} {item.units && item.units !== "n/a" ? `(${item.units})` : ""}</b>
-                          {!item.catalog_matched && <span className="raster-warning"> Catalog entry unavailable.</span>}
+                          {!item.catalog_matched && <span className="raster-warning"> Full description unavailable.</span>}
                           {item.description && <p>{item.description}</p>}
                           {item.summary.warning && <p className="raster-warning">{item.summary.warning}</p>}
                           {item.summary.valid_pixel_count > 0 && (
                             <p>
-                              Min {Number(item.summary.min.toPrecision(4))} · Max {Number(item.summary.max.toPrecision(4))} ·
-                              Mean {Number(item.summary.mean.toPrecision(4))} · Median {Number(item.summary.median.toPrecision(4))}
-                              {item.summary.median_is_sampled ? " (sampled)" : ""} · SD {Number(item.summary.standard_deviation.toPrecision(4))}
-                              <br />{item.summary.valid_pixel_count.toLocaleString()} valid pixels
-                              ({item.summary.valid_region_percent}% of selected region)
-                              {item.summary.region_pixel_count_is_approximate ? " · region coverage estimate" : ""}
+                              Lowest {Number(item.summary.min.toPrecision(4))} · Highest {Number(item.summary.max.toPrecision(4))} ·
+                              Average {Number(item.summary.mean.toPrecision(4))} · Middle value {Number(item.summary.median.toPrecision(4))}
+                              {item.summary.median_is_sampled ? " (estimated from a sample)" : ""} ·
+                              Variation (standard deviation) {Number(item.summary.standard_deviation.toPrecision(4))}
+                              <br />{item.summary.valid_pixel_count.toLocaleString()} usable map squares
+                              ({item.summary.valid_region_percent}% of the selected area has information)
+                              {item.summary.region_pixel_count_is_approximate ? " · approximate area covered" : ""}
                             </p>
                           )}
                         </div>
@@ -567,17 +575,17 @@ export default function RasterOverlayPanel({ map }) {
           {overlays.some((overlay) => overlay.records.filter((record) => record.datetime).length > 1) && (
             <label className="raster-sync">
               <input type="checkbox" checked={syncDates} onChange={(event) => toggleDateSync(event.target.checked)} />
-              Synchronize dates
+              Keep dates in sync
             </label>
           )}
           {syncDates && allDates.length > 0 && (
-            <label className="raster-sync-date">Shared date
+            <label className="raster-sync-date">Date for all layers
               <select value={syncDate || allDates[0]} onChange={(event) => changeSyncDate(event.target.value)}>
                 {allDates.map((value) => <option key={value} value={value}>{value}</option>)}
               </select>
             </label>
           )}
-          {!catalog.length && !error && !catalogWarnings.length && <p className="raster-help">Discovering available GeoTIFFs…</p>}
+          {!catalog.length && !error && !catalogWarnings.length && <p className="raster-help">Finding available map layers…</p>}
         </div>
       )}
     </section>

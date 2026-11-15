@@ -406,7 +406,7 @@ class RasterOverlayService:
     def _hub_sources(self) -> list[dict]:
         token = os.getenv("HF_TOKEN")
         if not token:
-            self.warnings.append("HF_TOKEN is not configured; Hugging Face raster files are unavailable.")
+            self.warnings.append("Hugging Face map layers are unavailable because the required access token is not set.")
             return []
 
         repo_id = os.getenv("HF_DATASET_REPO", HF_REPO_ID)
@@ -421,7 +421,7 @@ class RasterOverlayService:
             response = getattr(error, "response", None)
             status = getattr(response, "status_code", None)
             if status in (401, 403):
-                message = "Hugging Face authentication failed; check that HF_TOKEN can read the dataset."
+                message = "Hugging Face access was denied; check that the access token can read the dataset."
             elif status == 404:
                 message = f"Hugging Face dataset {repo_id} was not found or is not accessible."
             else:
@@ -465,7 +465,7 @@ class RasterOverlayService:
                 return asset["path"]
             token = os.getenv("HF_TOKEN")
             if not token:
-                raise PermissionError("HF_TOKEN is not configured; set it in the backend environment.")
+                raise PermissionError("The Hugging Face access token is not set.")
             try:
                 from huggingface_hub import hf_hub_download
 
@@ -481,11 +481,11 @@ class RasterOverlayService:
                 response = getattr(error, "response", None)
                 status = getattr(response, "status_code", None)
                 if status in (401, 403):
-                    raise PermissionError("Hugging Face authentication failed; check HF_TOKEN access.") from error
+                    raise PermissionError("Hugging Face access was denied; check that the access token can read the dataset.") from error
                 if status == 404:
-                    raise FileNotFoundError("The selected raster is no longer present in the dataset.") from error
+                    raise FileNotFoundError("The selected map layer is no longer available in the dataset.") from error
                 logger.warning("Hugging Face raster download failed (%s)", type(error).__name__)
-                raise ConnectionError("The selected raster could not be downloaded from Hugging Face.") from error
+                raise ConnectionError("The selected map layer could not be downloaded from Hugging Face.") from error
             asset["path"] = path
             return path
 
@@ -521,7 +521,7 @@ class RasterOverlayService:
                             "variables": [],
                             "series_key": _series_key(source["repo_path"], source["dataset"]),
                             **_catalog_metadata(identity, source["dataset"], source["name"]),
-                            "source_type": "Hugging Face dataset raster; data provenance is not specified in the catalog.",
+                            "source_type": "Hugging Face map data; the catalog does not say where the measurements came from.",
                         }
                     else:
                         try:
@@ -529,7 +529,7 @@ class RasterOverlayService:
                                 source["path"], identity, source["dataset"], source["name"],
                                 source["modified"], source["overrides"],
                             )
-                            asset["source_type"] = "Local raster file" if source["kind"] == "local" else "Configured remote raster"
+                            asset["source_type"] = "Map data from this device" if source["kind"] == "local" else "Map data from an online source"
                         except (OSError, rasterio.errors.RasterioError, ValueError) as error:
                             logger.warning("Skipping unreadable raster %s: %s", identity, error)
                             continue
@@ -565,7 +565,7 @@ class RasterOverlayService:
             try:
                 asset = self._assets[asset_id]
             except KeyError as exc:
-                raise KeyError("Raster not found; refresh the raster catalog") from exc
+                raise KeyError("Map layer not found; refresh the map layer list") from exc
             asset_lock = self._asset_locks.setdefault(asset_id, threading.Lock())
         with asset_lock:
             path = self._download(asset)
@@ -578,7 +578,7 @@ class RasterOverlayService:
                 )
                 asset.update(metadata)
                 asset["source_type"] = (
-                    "Hugging Face dataset raster; data provenance is not specified in the catalog."
+                    "Hugging Face map data; the catalog does not say where the measurements came from."
                     if asset["kind"] == "huggingface"
                     else asset["source_type"]
                 )
@@ -591,7 +591,7 @@ class RasterOverlayService:
             raise ValueError(f"Unknown color ramp: {ramp}")
         asset = self.asset(asset_id)
         if band < 1 or band > len(asset["variables"]):
-            raise ValueError("Invalid raster band")
+            raise ValueError("Invalid map measurement")
         variable = json.dumps(asset["variables"][band - 1], sort_keys=True)
         return _render_tile(asset_id, asset["path"], variable, z, x, y, band, ramp)
 
@@ -735,7 +735,7 @@ def _cached_summary(path: str, band: int, modified: str, geometry_json: str) -> 
             "valid_region_percent": round(100 * count / region_pixels, 2),
             "region_pixel_count_is_approximate": region_count_sampled,
             "median_is_sampled": count > sample.size,
-            "warning": None if count else "No valid raster pixels cover the selected region.",
+            "warning": None if count else "No map data squares cover the selected area.",
         }
 
 
@@ -791,7 +791,7 @@ def _empty_summary(region_pixel_count: int = 0, approximate: bool = False) -> di
         "valid_region_percent": 0,
         "region_pixel_count_is_approximate": approximate,
         "median_is_sampled": False,
-        "warning": "The selected region is outside this raster's coverage.",
+        "warning": "The selected area is outside this map layer's coverage.",
     }
 
 
